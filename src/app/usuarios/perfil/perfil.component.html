@@ -1,0 +1,168 @@
+<!-- <ng-template #cancelBtn>
+  <button mat-stroked-button color="success" style="margin-right: 7px">{{'Cancelar'
+    | translate}}</button>
+</ng-template>
+<ng-template #confirmBtn>
+  <button mat-stroked-button color="success" style="margin-right: 7px">{{'Confirmar'
+    | translate}}</button>
+</ng-template> -->
+
+
+<!-- <div class="main-content"> -->
+<div class="card contenedor">
+
+  <div class="container-fluid">
+    <div class="card-header card-header-danger color-modal-header">
+      <h4 class="card-title">Perfil de usuario</h4>
+      <p class="card-category">Actualice su perfil de cliente</p>
+    </div>
+
+    <div *ngIf="usuario">
+      <div class="card">
+
+        <div class="card-body">
+          <form #variableForm="ngForm">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Cuenta de correo</mat-label>
+                  <input matInput class="form-control" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                    id="email" name="email" placeholder="cuenta@ejemplo.es" [(ngModel)]="usuario.username"
+                    #email="ngModel" minlength="5" maxlength="40" required>
+                  <mat-hint> No es necesario cambiar de password
+                  </mat-hint>
+                  <mat-error *ngIf="email.hasError('required')">
+                    Es <strong>necesario rellenar </strong> este campo
+                  </mat-error>
+                  <mat-error *ngIf="email.hasError('minlength') || email.hasError('maxlength')">
+                    Debe tener entre 5 y 40 posiciones
+                  </mat-error>
+                  <mat-error *ngIf="email.hasError('pattern')">
+                    Error en formato de correo
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Teléfono</mat-label>
+                  <input matInput class="form-control" id="telefono" name="telefono" placeholder="11 o 9 dígitos"
+                    [(ngModel)]="usuario.telefono" #telefono="ngModel" minlength="9" maxlength="11">
+
+                  <mat-error *ngIf="telefono.hasError('minlength') || telefono.hasError('maxlength')">
+                    Debe tener entre 9 y 11 posiciones
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput class="form-control" id="nombre" name="nombre" placeholder="tu nombres"
+                    [(ngModel)]="usuario.nombre" #nombre="ngModel" minlength="4" maxlength="30" required>
+                  <mat-error *ngIf="nombre.hasError('required')">
+                    Es <strong>necesario rellenar </strong> nombre</mat-error>
+                  <mat-error *ngIf="nombre.hasError('minlength') || nombre.hasError('maxlength')">
+                    Nombre debe tener entre 4 y 30 posiciones
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Apellidos</mat-label>
+                  <input matInput class="form-control" id="apellidos" name="apellidos" [(ngModel)]="usuario.apellidos"
+                    #apellidos="ngModel" minlength="4" maxlength="60">
+                  <mat-error *ngIf="apellidos.hasError('minlength') || apellidos.hasError('maxlength')">
+                    Nombre debe tener entre 4 y 60 posiciones
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12">
+                <section class="checkbox-section form-row">
+                  <div class="col">
+                    <mat-checkbox class="checkbox-margin" color="primary" [(ngModel)]="usuario.aceptaEmails"
+                      name="aceptaEmails" labelPosition="after" disabled="false">
+                      Acepto emails con novedades
+                    </mat-checkbox>
+                  </div>
+                  <div class="col">
+                    <mat-checkbox class="checkbox-margin" color="primary" [(ngModel)]="aceptoCondiciones"
+                      name="aceptaCondiciones" #aceptaCondiciones="ngModel" labelPosition="after" disabled="false">
+                      Acepto las condiciones
+                    </mat-checkbox>
+                  </div>
+                </section>
+              </div>
+            </div>
+            <br>
+            <mat-label style="font-size: 16px;">Direcciones (Solo para entrega de pedidos)</mat-label> 
+            <div class="row table-responsive" style="text-align: center;">
+              <table class="table table-bordered table-striped" *ngIf="usuario.direcciones?.length>0">
+                <thead>
+                  <tr>
+                    <th>calle</th>
+                    <th>numero</th>
+                    <th>planta</th>
+                    <th>puerta</th>
+                    <th>c. postal</th>
+                    <th>municipio</th>
+                    <th>provincia</th>
+                    <th><i class="fa fa-edit"></i></th>
+                    <th><i class="fa fa-trash-o"></i></th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let direccion of usuario.direcciones">
+                    <td>{{ direccion.calle }}</td>
+                    <td>{{ direccion.numero }}</td>
+                    <td>{{ direccion.planta }}</td>
+                    <td>{{ direccion.puerta }}</td>
+                    <td>{{ direccion.codigoPostal }}</td>
+                    <td>{{ direccion.municipio }}</td>
+                    <td>{{ direccion.provincia }}</td>
+
+                    <td>
+                      <button type="button" class="btn btn-primary btn-sm" (click)="updateDireccion(direccion)">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-primary btn-sm" (click)='eliminarDireccion(direccion)'>
+                        <i class="fa fa-trash-o"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <br>
+            <div class="row">
+              <button mat-raised-button class="margin-right" color="primary" (click)='addDireccion()'>
+                Añadir una dirección de envío
+                <i class="fa fa-edit"></i>
+              </button>
+            </div>
+
+            <ul class="alert alert-danger" *ngIf="erroresValidacion?.length > 0">
+              <h6>Errores de validación detectados por el backend</h6>
+              <li *ngFor="let err of erroresValidacion">
+                {{err}}
+              </li>
+            </ul>
+          </form>
+        </div> <!-- card-body-->
+        <div class="card-footer grupo-botones">
+          <button mat-raised-button class="margin-right" color="primary" (click)='update(usuario)'
+            [disabled]="!variableForm.form.valid">Actualizar</button>
+          <button mat-raised-button class="margin-right" color="primary" (click)="salir()">Salir</button>
+        </div>
+      </div>
+
+    </div> <!-- container fluid-->
+  </div> <!-- main container-->

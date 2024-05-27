@@ -1,0 +1,143 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand flex-column align-items-start" href="#">
+      <div class="navbar-nav mb-lg-0">
+        <!--
+        <div class="logo">
+          <h2> <a href="#"><i class="fa fa-tint" aria-hidden="true"></i>{{empresa.nombre}}</a></h2>
+        </div>
+        -->
+
+        <div class="logo">
+        <img src="../../assets/images/gotas.ico" height="75" 
+          alt="gotas acrílicas"/> 
+          {{empresa.nombre}}
+        </div>
+      </div>
+
+      <div class="navbar-nav mt-0">
+
+
+      </div>
+    </a>
+
+    <button (click)="toggleSidebar()" class="navbar-toggler" type="button">
+      <i aria-hidden="true" class="fa fa-bars text-muted"></i>
+    </button>
+
+
+    <div class="collapse navbar-collapse flex-column align-items-end" id="navbarCollapse">
+      <!-- navbar1 -->
+      <div class="navbar-nav mb-lg-0">
+
+        <h5><a style="margin-right: 17px"><i class="fa fa-phone"
+          aria-hidden="true"></i>{{empresa.telefono}}</a></h5>
+
+        <h5><a style="margin-right: 10px">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+            {{empresa.direccion}} {{empresa.localidad}} ({{empresa.provincia}})
+          </a></h5>
+      </div>
+
+      <ul class="navbar-nav mt-0">
+
+        <!--
+        <li class="nav-item" ngbDropdown>
+          <a class="nav-link" href="http://micasa.tiiny.site/" target="_blank">
+            <i class="fa fa-link"></i> <b> Tour virtual</b>
+          </a>
+        </li>
+
+        <li class="nav-item" ngbDropdown>
+          <a class="nav-link" href={{metaRestaurante}}>
+            <i class="fa fa-link"></i> <b> Contratar</b>
+          </a>
+        </li>
+        -->
+        <li class="nav-item" ngbDropdown>
+          <a class="nav-link" [routerLink]="['/dashboard']">
+            <i class="fa fa-home"></i> <b>Home</b>
+          </a>
+        </li>
+
+        <li class="nav-item" ngbDropdown>
+          <a class="nav-link" [routerLink]="['/store/lote']">
+            <i class="fa fa-object-group"></i> <b>Lotes</b>
+          </a>
+        </li>
+
+        <li class="nav-item" ngbDropdown>
+          <a class="nav-link" [routerLink]="['/store/galeria']">
+            <i class="fa fa-list-ul"></i> <b>Galería</b>
+          </a>
+        </li>
+
+        <li class="nav-item dropdown" ngbDropdown>
+
+          <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
+            <i class="fa fa-user"></i>
+            <b *ngIf="authService.isAuthenticated()">{{authService.usuario.nombre}}</b> 
+            <b *ngIf="!authService.isAuthenticated()">Login</b>
+          </a>
+
+          <div class="dropdown-menu-right" ngbDropdownMenu>
+            <!-- <a *ngIf="authService.hasRole('ROLE_ADMIN')" class="dropdown-item" [routerLink]="['/perfil']"> -->
+            <a *ngIf="authService.isAuthenticated()" class="dropdown-item" [routerLink]="['/perfil']">
+
+              <i class="fa fa-fw fa-user"></i> 
+              <b>{{ 'Profile' | translate }}</b>
+            </a>
+            <a *ngIf="authService.hasRole('ROLE_ADMIN')" class="dropdown-item" [routerLink]="['/admin-roles']">
+              <i class="fa fa-fw fa-gear"></i> {{ 'Manage user roles' | translate }}
+            </a>
+            <a *ngIf="authService.hasRole('ROLE_ADMIN')" class="dropdown-item" [routerLink]="['/admin-index']">
+              <i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}
+            </a>
+            <a *ngIf="authService.usuario.username" (click)="onLoggedout()" class="dropdown-item"
+              href="javascript:void(0)">
+              <i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}
+            </a>
+            <a *ngIf="!authService.usuario.username" [routerLink]="['/login']" class="dropdown-item">
+              <i class="fa fa-fw fa-power-off"></i> {{ 'Log In' | translate }}
+            </a>
+            <a *ngIf="!authService.usuario.username" [routerLink]="['/registro']" class="dropdown-item">
+              <i class="fa fa-fw fa-power-off"></i> {{ 'Sign Up' | translate }}
+            </a>
+          </div>
+        </li>
+
+        <!-- Idioma 
+        <li class="nav-item dropdown" ngbDropdown>
+          <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
+            <i class="fa fa-language"></i> <b>{{ 'Language' | translate }}</b> <b class="caret"></b>
+          </a>
+          <div class="dropdown-lote-right" ngbDropdownMenu>
+            <a (click)="changeLang('en')" class="dropdown-item" href="javascript:void(0)">
+              {{ 'English' | translate }}
+            </a>
+            <a (click)="changeLang('es')" class="dropdown-item" href="javascript:void(0)">
+              {{ 'Spanish' | translate }}
+            </a>
+          </div>
+        </li>
+        Idioma -->
+
+        <!-- carrito -->
+        <li *ngIf="authService.isAuthenticated()" class="nav-item" ngbDropdown>
+          <a class="nav-link" [routerLink]="['/store/carrito']">
+            <mat-icon [matBadge]= "numArticulosCarrito" matBadgeColor="warn" [matBadgeHidden]="hiddenProductosEnCarrito">shopping_cart</mat-icon>
+          </a>
+        </li>
+        <!-- carrito -->
+
+        <!-- <li class="nav-item">
+          <a (click)="rltAndLtr()" class="nav-link mt-1" href="javascript:void(0)"
+            style="padding: 0.375rem 1rem !important; border-color: #999;">
+            RTL/LTR
+          </a>
+        </li> -->
+
+      </ul>
+    </div>
+  </div> <!-- container -->
+</nav>

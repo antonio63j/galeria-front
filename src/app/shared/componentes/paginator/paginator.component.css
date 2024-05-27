@@ -1,0 +1,18 @@
+
+.my-select-panel-class {
+  width: 95px;
+  height: 75px;
+  max-width: 100px;
+  font-size: 14px;
+  margin-left: 25px;
+  ;
+}
+
+li a {
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+}
+
+span {
+  background-color: rgb(97, 42, 168) !important;
+}

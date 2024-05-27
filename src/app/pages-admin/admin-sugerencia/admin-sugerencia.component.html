@@ -1,0 +1,195 @@
+<!-- <div [@routerTransition]> -->
+<!-- <app-page-header heading="{{'Sugerencias' | translate}}" [icon]="'fa-book'"></app-page-header> -->
+
+<!-- <div class="row" [appDisable]="true"> -->
+<!-- <div class="row my-disable"> -->
+<div [ngClass]="{'my-disable': !disable, 'my-invisible': !disable}">
+    <div class="row">
+        <div class="col">
+            <div class="card mb-9 text-center">
+                <div class="card-header color-modal-header">
+                    <h5>Sugerencias</h5>
+                </div>
+                <div class="card-title">
+                    <div *ngIf="!sugerencias" class="alert alert-info">Espere un momento por favor</div>
+                    <div *ngIf="sugerencias?.length==0" class="alert alert-info"> Lista vacía
+                        <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+                            style="margin-right: 8px" (click)='crear()'>{{'Crear sugerencia' |translate}}</button>
+                        <button *ngIf="filterChecked" class="btn btn-primary btn-sm" style="margin-right: 8px"
+                            (click)='quitarFiltros()'>{{'Desactivar filtros' |translate}}</button>
+                    </div>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-bordered table-striped" *ngIf="sugerencias?.length>0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <button mat-raised-button color="primary" style="margin-right: 8px; font-size: 14px;"
+                                        (click)='crear()'>Crear
+                                        sugerencia</button>
+                                </th>
+
+                                <th [ngClass]="{bloqueoFiltro: filterChecked, desbloqueoFiltro: !filterChecked}"
+                                    (click)='sortChangeColumn("label")'>
+                                    <div class="arrow-up" *ngIf='filtroSugerencia.direction=="asc" &&
+                                            filtroSugerencia.order=="label"'></div>
+                                    <div class="arrow-down" *ngIf='filtroSugerencia.direction=="desc" &&
+                                            filtroSugerencia.order=="label"'></div>
+                                    label
+                                </th>
+
+                                <th [ngClass]="{bloqueoFiltro: filterChecked, desbloqueoFiltro: !filterChecked}"
+                                    (click)='sortChangeColumn("tipo")'>
+                                    <div class="arrow-up" *ngIf='filtroSugerencia.direction=="asc" &&
+                                          filtroSugerencia.order=="tipo"'></div>
+                                    <div class="arrow-down" *ngIf='filtroSugerencia.direction=="desc" &&
+                                          filtroSugerencia.order=="tipo"'></div>
+                                    tipo
+                                </th>
+
+                                <th [ngClass]="{bloqueoFiltro: filterChecked, desbloqueoFiltro: !filterChecked}"
+                                    (click)='sortChangeColumn("precio")'>
+                                    <div class="arrow-up" *ngIf='filtroSugerencia.direction=="asc" &&
+                                          filtroSugerencia.order=="precio"'></div>
+                                    <div class="arrow-down" *ngIf='filtroSugerencia.direction=="desc" &&
+                                          filtroSugerencia.order=="precio"'></div>
+                                    precio
+                                </th>
+
+                                <th [ngClass]="{bloqueoFiltro: filterChecked, desbloqueoFiltro: !filterChecked}"
+                                    (click)='sortChangeColumn("descripcion")'>
+                                    <div class="arrow-up" *ngIf='filtroSugerencia.direction=="asc" &&
+                                          filtroSugerencia.order=="descripcion"'></div>
+                                    <div class="arrow-down" *ngIf='filtroSugerencia.direction=="desc" &&
+                                          filtroSugerencia.order=="descripcion"'></div>
+                                    descripcion
+                                </th>
+
+                                <!-- <th *ngIf="authService.hasRole('ROLE_ADMIN')"><i class="fa fa-trash-o"></i></th> -->
+                                <!-- <th *ngIf="authService.hasRole('ROLE_ADMIN')"><i class="fa fa-edit"></i></th> -->
+                            </tr>
+                        </thead>
+
+                        <thead>
+                            <tr>
+                                <th [ngClass]="{bloqueoFiltro: filterChecked, desbloqueoFiltro: !filterChecked}">
+                                    <mat-slide-toggle [(ngModel)]="filterChecked" (change)="changedFilter()">
+                                        Filtro
+                                    </mat-slide-toggle>
+                                </th>
+                                <th>
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="label" 
+                                            [disabled]="filterChecked" [(ngModel)]="filtroSugerencia.label"
+                                            #label="ngModel" maxlength="80">
+                                        <mat-icon matSuffix>search</mat-icon>  
+                                        <mat-hint>busca dentro del nombre del producto</mat-hint>  
+                                    </mat-form-field>
+                                </th>
+                                <th style="width: 250px !important">
+                                    <mat-form-field>
+                                        <!-- <mat-label>Filtro grupo sugerencia</mat-label> -->
+                                        <select matNativeControl id="tipoP" name="tipoP"
+                                            [disabled]="filterChecked" [(ngModel)]="filtroSugerencia.tipo"
+                                            #tipoP="ngModel">
+                                            <option label="-- filtro grupo de tipos --"></option>
+                                            <option *ngFor="let tipo of tipoObras" [value]="tipo.nombre">
+                                                {{tipo.nombre}}
+                                            </option>
+                                        </select>
+                                    </mat-form-field>
+                                </th>
+
+                                <th style="width: 250px !important">
+                                    <mat-form-field style="width: 100px !important; margin-right: 6px;">
+                                        <mat-label>Mínimo</mat-label>
+                                        <input matInput type="number" name="precioMin"
+                                             [disabled]="filterChecked"
+                                            [(ngModel)]="filtroSugerencia.precioMin" #precioMin="ngModel" maxlength="7">
+
+                                    </mat-form-field>
+
+                                    <mat-form-field style="width: 100px !important">
+                                        <mat-label>Máximo</mat-label>
+                                        <input matInput type="number" name="precioMax"
+                                            [disabled]="filterChecked"
+                                            [(ngModel)]="filtroSugerencia.precioMax" #precioMax="ngModel" maxlength="7">
+                                    </mat-form-field>
+
+                                </th>
+                                <th>
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="descripcion"
+                                            [disabled]="filterChecked"
+                                            [(ngModel)]="filtroSugerencia.descripcion" #descripcion="ngModel"
+                                            maxlength="80">
+                                        <mat-icon matSuffix>search</mat-icon> 
+                                        <mat-hint>busca dentro de la descripción del producto</mat-hint> 
+                                    </mat-form-field>
+                                </th>
+
+                                <th [ngClass]="{bloqueoFiltro: filterChecked, desbloqueoFiltroa: !filterChecked}">
+                                    Filtro
+                                    <mat-slide-toggle [(ngModel)]="filterChecked" (change)="changedFilter()">
+
+                                    </mat-slide-toggle>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let sugerencia of sugerencias">
+                                <td style="width: 100px">
+                                    <!-- <img *ngIf="sugerencia?.imgFileName" (click)='update(sugerencia)'
+                  src="{{host}}/api/sugerencia/uploads/img/{{sugerencia.imgFileName}}" alt="foto sugerencia"
+                  class="img-thumbnail2 rounded" style="width: 200px; cursor: pointer;"> -->
+                                    <img *ngIf="sugerencia?.imgFileName" (click)='update(sugerencia)'
+                                        src="{{host}}/api/sugerencia/uploads/img/{{sugerencia.imgFileName}}"
+                                        alt="sugerencia de nuestro galeria" class="rounded"
+                                        style="width: 100px; cursor: pointer;">
+                                </td>
+                                <td style="width: 300px !important ">{{ sugerencia.label}}</td>
+                                <td>{{ sugerencia.tipo}}</td>
+                                <td>{{ sugerencia.precio}}</td>
+                                <td>
+                                    <div [innerHTML]=sugerencia.descripcion></div>
+                                </td>
+                                <td class="btncolumn" *ngIf="authService.hasRole('ROLE_ADMIN')">
+                                    <button type="button" class="btn btn-danger btn-sm" (click)='delete(sugerencia)'>
+                                        <i class="fa fa-trash-o"></i></button>
+                                </td>
+                                <td class="btncolumn" *ngIf="authService.hasRole('ROLE_ADMIN')">
+                                    <button type="button" class="btn btn-primary btn-sm" (click)='update(sugerencia)'>
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- card-body -->
+
+
+                <div class="card-footer text-muted con-scroll">
+                    <div class="row">
+                        <div class="col">
+                            <paginator-nav *ngIf="paginador" [paginador]="paginador" [sizes]="[5, 10, 15, 30, 50]"
+                                [sizePage]=+filtroSugerencia.size (messageToEmit)="getPagina($event)">
+                            </paginator-nav>
+                        </div>
+                        <div class="col">
+                            <button mat-raised-button color="primary" style="margin-right: 8px" (click)='crear()'>Crear
+                                sugerencia</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- card-footer -->
+            </div>
+            <!-- card -->
+        </div>
+        <!--col -->
+    </div>
+    <!-- row-->
+</div>
+
+<!-- </div> -->

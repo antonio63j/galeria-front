@@ -1,0 +1,54 @@
+
+@import "../../../styles/mis-variables";
+
+.card {
+    margin:2em;padding-top:0;padding-left:0;padding-right:0
+  }
+  
+  .titulo-card {
+    background:rgba(0,0,0,.06); padding:20px 20px;
+  }
+
+  .contenedor {
+    width: 90%;
+    // margin: 10%;
+    margin-left: 5%;
+    margin-right: 50%;
+}
+
+@media screen and (max-width: 576px) {
+    .contenedor {
+        width: 99%;
+        margin: 0.5%;
+    }
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+mat-card-title,
+mat-card-content>p {
+    font-size: 15px ! important;
+    font-family: Helvetica;
+    text-align: center ! important;
+    font-weight: bold;
+}
+
+.corto {
+  width: 60px !important;
+}
+
+
+// seleccion cantides para parrito
+.my-select-panel-class {
+  width: 65px;
+  height: 35px;
+  max-width: 65px;
+  font-size: 1.3em;
+  margin-left: 25px;
+  ;
+}
+
+::ng-deep .mat-mdc-select-panel.my-long-panel {
+  background-color: $oxido-claro;
+  max-height: 200px;
+}
+

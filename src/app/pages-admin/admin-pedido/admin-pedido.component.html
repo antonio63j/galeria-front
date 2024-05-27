@@ -1,0 +1,74 @@
+<div class="card contenedor">
+  <div class="card-header color-modal-header">
+      <h3 style="text-align: center;">Lista de pedidos</h3>
+  </div>
+  <div class="card-title">
+      <div *ngIf="!pedidos" class="alert alert-info">Esperando carga de pedidos</div>
+      <div *ngIf="pedidos?.length==0" class="alert alert-info"> Lista vacía, hoy no hay pedidos para su entrega.
+      </div>
+
+      <mat-slide-toggle style="margin-left: 30px; margin-top: 15px;" [(ngModel)]="filterChecked"
+          (change)="changedFilter()">
+          filtros y ordenación
+      </mat-slide-toggle>
+
+      <div *ngIf="filterChecked" class="filtro">
+          <dynamic-form [fields]="regConfig" (submit)="submit($event)">
+          </dynamic-form>
+      </div>
+  </div>
+
+  <div class="card-body table-responsive">
+    <table class="table table-bordered table-striped" *ngIf="pedidos?.length>0">
+      <thead>
+        <tr>
+          <th>estado</th>
+          <th>registro</th>
+          <th>entrega</th>
+          <th>lugar entrega</th>
+          <th>cliente</th>
+          <th>nota del cliente</th>
+
+          <th *ngIf="authService.hasRole('ROLE_ADMIN')"><i class="fa fa-edit"></i></th>
+          <th *ngIf="authService.hasRole('ROLE_ADMIN')"><i class="fa fa-trash-o"></i></th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pedido of pedidos">
+          <td>{{ pedido.estadoPedido }}</td>
+          <!-- <td>{{ pedido.fechaRegistro | date:"dd MMM yyyy HH:mm"}}</td>
+          <td>{{ pedido.fechaEntrega | date:"dd MMM yyyy HH:mm"}}</td> -->
+          <td>{{ pedido.fechaRegistro}}</td>
+          <td>{{ pedido.fechaEntrega}}</td>
+          <td>{{ pedido.entregaPedido}}</td>
+          <td>{{ pedido.usuario }}</td>
+          <td>{{ pedido.nota}}</td>
+          <td *ngIf="authService.hasRole('ROLE_ADMIN')">
+            <button type="button" class="btn btn-primary btn-sm" 
+              [routerLink]="['/admin-index/admpedidoform', pedido.id]">
+              <i class="fa fa-edit"></i>
+            </button>
+          </td>
+          <td *ngIf="authService.hasRole('ROLE_ADMIN')">
+            <button type="button" class="btn btn-primary btn-sm" (click)='update(pedido)'>
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> <!-- card-body -->
+
+  <div class="card-footer text-muted con-scroll">
+      <div class="row">
+          <div class="col">
+              <paginator-nav *ngIf="paginador" [paginador]="paginador" [sizes]="[5, 10, 15, 30, 50]"
+                  [sizePage]=+filtroPedido.size (messageToEmit)="getPagina($event)">
+              </paginator-nav>
+          </div>
+      </div>
+  </div>
+  <!-- card-footer -->
+
+</div>

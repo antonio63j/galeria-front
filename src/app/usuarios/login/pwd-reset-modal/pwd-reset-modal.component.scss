@@ -1,0 +1,15 @@
+
+@import 'bootstrap/scss/bootstrap';
+// @import '~bootstrap/scss/functions';
+@import "../../../../styles/mis-variables";
+
+.aviso {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    text-align: center;
+    margin-left: 12px;
+    color: $oxido;
+  }
+
+  .scroll { overflow: auto !important; }

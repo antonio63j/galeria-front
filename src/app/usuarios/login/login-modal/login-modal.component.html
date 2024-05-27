@@ -1,0 +1,67 @@
+<form>
+  <div class="modal-header color-modal-header">
+    <h4 class="modal-title">{{titulo}}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.close(true)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form #variableForm="ngForm">
+      <div class="form-group">
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Cuenta de correo</mat-label>
+          <input matInput #emailCuenta class="form-control" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" id="email"
+            name="email" placeholder="cuenta@ejemplo.es" [(ngModel)]="usuario.username" #email="ngModel" minlength="5"
+            maxlength="40" required>
+          <mat-error *ngIf="email.hasError('required')">
+            Es <strong>necesario rellenar </strong> este campo
+          </mat-error>
+          <mat-error *ngIf="email.hasError('minlength') || email.hasError('maxlength')">
+            Debe tener entre 5 y 40 posiciones
+          </mat-error>
+          <mat-error *ngIf="email.hasError('pattern')">
+            Error en formato de correo
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" class="form-control" 
+            id="clave" name="clave" placeholder="password" 
+            [(ngModel)]="usuario.password" #clave="ngModel" minlength="5" maxlength="40"
+            required>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="clave.hasError('required')">
+            Es <strong>necesario rellenar </strong> contraseña</mat-error>
+          <mat-error *ngIf="clave.hasError('minlength') || clave.hasError('maxlength')">
+            La contraseña debe tener entre 5 y 40 posiciones
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <a class="boton-bajo" (click)="signup()" href="javascript:void(0)">
+        Registro
+      </a>
+
+      <br>
+      <a class="boton-bajo" (click)="resetPassword()" href="javascript:void(0)">
+        Has olvidado tu contraseña?
+      </a>
+
+    </form>
+  </div>
+
+  <div class="modal-footer grupo-botones">
+    <button mat-raised-button class="margin-right" color="primary" (click)='login()' [disabled]="!variableForm.form.valid">iniciar
+      sesión</button>
+    <button mat-raised-button color="primary" (click)="activeModal.close('cancelar')">Salir</button>
+  </div>
+
+</form>

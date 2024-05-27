@@ -1,0 +1,71 @@
+    <footer class="py-5">
+        <div class="container py-sm-3">
+            <div class="row footer-grids">
+                <div class="col-lg-3 col-sm-6 mb-lg-0 mb-sm-5 mb-4">
+                    <h4 class="mb-4"><span class="fa fa-tint"></span> {{empresa.nombre}}</h4>
+                    <p class="mb-3">{{empresa.descripcionBreve}}</p>
+                    <p class="mb-3">horario de {{empresa.horaApertura}} a {{empresa.horaCierre}}</p>
+                    <p *ngIf="!authService.isAuthenticated()" class="mb-3"> <a [routerLink]="['/registro']"> regístrate y haz tu pedido </a><span>ON LINE</span> </p>
+                </div>
+                <div class="col-lg-3 col-sm-6 mb-md-0 mb-sm-5 mb-4">
+                    <h4 class="mb-4">Contacto</h4>
+                    <p><span class="fa mr-2 fa-map-marker"></span>{{empresa.direccion}}<span> {{empresa.localidad}} ({{empresa.provincia}})</span></p>
+                    <p class="phone py-2"><span class="fa mr-2 fa-phone"></span> {{empresa.telefono}}</p>
+                    <p><span class="fa mr-2 fa-envelope"></span><a [routerLink]="['/contacto']">Envíanos un mensaje</a></p>
+                </div>
+                <div class="col-lg-2 col-sm-6 mb-lg-0 mb-sm-5 mb-4">
+                    <h4 class="mb-4">Enlaces rápidos</h4>
+                    <ul>
+                        <li><a [routerLink]="['/store/galeria']">Nuestra Galeria</a></li>
+                        <li class="my-2"><a [routerLink]="['/store/lote']">Lotes de obras</a></li>
+                        <!-- <li><a href="#">Support Helpline</a></li>
+                        <li class="mt-2"><a href="#">Privacy Ploicy</a></li> -->
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <h4 class="mb-4">Suscríbete</h4>
+                    <p class="mb-3">Recibirá nuestras novedades</p>
+                    <form action="#" method="post" class="d-flex">
+                        <input type="email" id="emailSus" name="EMAIL" placeholder="Aquí tu email" required="">
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                    <div class="icon-social mt-3">
+                        <a href="#" class="button-footr" aria-label="Plataforma facebook">
+                            <span class="fa mx-2 fa-facebook"></span>
+                        </a>
+                        <a href="#" class="button-footr" aria-label="Plataforma twitter">
+                            <span class="fa mx-2 fa-twitter"></span>
+                        </a>
+                        <a href="#" class="button-footr" aria-label="Plataforma dribbble">
+                            <span class="fa mx-2 fa-dribbble"></span>
+                        </a>
+                        <a href="#" class="button-footr" aria-label="Plataforma pinterest">
+                            <span class="fa mx-2 fa-pinterest"></span>
+                        </a>
+                        <a href="#" class="button-footr" aria-label="Plataforma google-plus">
+                            <span class="fa mx-2 fa-google-plus"></span>
+                        </a>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- //footer -->
+    
+    <!-- copyright -->
+    <div class="copyright">
+        <div class="container py-4">
+            <div class=" text-center">
+                <p>© 2024 All Rights Reserved | Design by <a href="http://w3layouts.com/"> AFL | Adapted to angular 17</a> </p>
+            </div>
+        </div>
+    </div>
+    <!-- //copyright -->
+            
+    <!-- move top -->
+    <div class="move-top text-right">
+        <a href="#home" class="move-top"> 
+            <span class="fa fa-angle-up  mb-3" aria-hidden="true"></span>
+        </a>
+    </div>

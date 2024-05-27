@@ -1,0 +1,150 @@
+//@import '@angular/material/prebuilt-themes/indigo-pink.css';
+// @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+// Para cambiar color mat-slide-togge
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
+.mat-mdc-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: rgb(235, 236, 135);
+}
+
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
+.mat-mdc-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: rgb(218, 161, 4);
+}
+// Para cambiar color mat-slide-togge
+
+
+@import 'bootstrap/scss/bootstrap';
+// @import '~bootstrap/scss/functions';
+@import "./styles/mis-variables";
+
+.estiloinput {
+    border: 2px solid $oxido;
+
+} 
+
+// .avisoerror {
+//     color: #f04a4a;
+//     font-size: 12px;
+// }
+
+.example-full-width {
+    width: 100%;
+}
+
+.input-full-50 {
+    width: 50%;
+}
+.grupo-botones {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 12px;
+
+  }
+
+.boton-bajo {
+
+        font-size: 15px;
+        line-height: 3px;
+        text-align: center;
+        // margin:0 auto;
+        height:2px;
+       // display:inline-block;
+        display:inline-flex;
+        color: $oxido;
+        
+        // padding: 5px;
+        cursor:pointer; cursor: hand;
+
+        text-decoration: underline;
+        -webkit-text-decoration-color: orange; /* Safari */  
+        text-decoration-color: orange; 
+}
+
+.label-bajo {
+  font-size: 15px;
+  line-height: 3px;
+  text-align: center;
+  // margin:0 auto;
+  height:2px;
+ // display:inline-block;
+  display:inline-flex;
+  color: $oxido;
+  
+  // padding: 5px;
+
+  -webkit-text-decoration-color: orange; /* Safari */  
+  text-decoration-color: orange; 
+}
+
+
+button.margin-right {
+    margin-right: 20px;
+}
+
+.color-modal-header{
+    background-color: $oxido !important;
+}
+
+.ancho-select-cantidad {
+  width: 105px;
+}
+  
+// mat-button
+
+.mat-mdc-button.mat-success,
+.mat-mdc-outlined-button.mat-success {
+    color: #332c06;
+    background-color: $oxido-claro;
+
+}
+.mat-mdc-button.mat-success:hover,
+.mat-mdc-outlined-button.mat-success:hover {
+  background-color: $oxido;
+}
+
+.mat-mdc-raised-button.mat-success,
+.mat-mdc-unelevated-button.mat-success,
+.mat-mdc-fab.mat-success,
+.mat-mdc-mini-fab.mat-success {
+  color: #aeeebb;
+  background-color: #155724;
+}
+
+.mat-mdc-icon-button.mat-success {
+  color:#155724;
+}
+
+
+// V Necesario para que se totalmente visible ngx-material-timepicker (móvil)
+.timepicker-overlay {
+  z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+  z-index: 10000000 !important;
+}
+
+// ^ Necesario para que se totalmente visible ngx-material-timepicker (móvil)
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 0;
+}
+
+.example-radio-button {
+  margin: 1px;
+  // padding-top: 5px;
+}
+
+.contenido-carrito-centrado {
+  width: 80%;
+  // margin: 10%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+

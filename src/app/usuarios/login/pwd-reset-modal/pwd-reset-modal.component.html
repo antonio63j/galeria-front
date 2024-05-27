@@ -1,0 +1,95 @@
+<form class="scroll">
+  <div class="modal-header color-modal-header">
+    <h4 class="modal-title">Reset password (en dos pasos)</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.close(true)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div>
+    <p *ngIf="!codigoEnviado" class="aviso"> Paso 1: Ponga cuenta de correo y a continuación pinche en Solicitar código</p> 
+    <p *ngIf="codigoEnviado" class="aviso"> Paso 2: No cierre esta ventana, 
+       ponga contraseñas y el código incluido en el correo que ha recibido, a continuacion pinche en Actualizar</p> 
+  </div>
+  <div class="modal-body">
+    <form #variableForm="ngForm">
+      <div class="form-group">
+        <mat-form-field class="example-full-width">
+          <mat-label>Cuenta de correo</mat-label>
+          <input [disabled]="codigoEnviado" matInput class="form-control"
+            pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" id="email" name="email"
+            placeholder="cuenta@ejemplo.es" [(ngModel)]="usuario.username" #email="ngModel" minlength="5" maxlength="40"
+            required>
+          <mat-error *ngIf="email.hasError('required')">
+            Es <strong>necesario rellenar </strong> este campo
+          </mat-error>
+          <mat-error *ngIf="email.hasError('minlength') || email.hasError('maxlength')">
+            Debe tener entre 5 y 40 posiciones
+          </mat-error>
+          <mat-error *ngIf="email.hasError('pattern')">
+            Error en formato de correo
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <mat-form-field class="example-full-width">
+        <mat-label>Contraseña</mat-label>
+        <input [disabled]="!codigoEnviado" matInput [type]="hide ? 'password' : 'text'" class="form-control" id="clave"
+          name="clave" placeholder="password" [(ngModel)]="usuario.password" #clave="ngModel" minlength="5"
+          maxlength="40" required>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="clave.hasError('required')">
+          Es <strong>necesario rellenar </strong> contraseña</mat-error>
+        <mat-error *ngIf="clave.hasError('minlength') || clave.hasError('maxlength')">
+          La contraseña debe tener entre 5 y 40 posiciones
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Repetir contraseña</mat-label>
+        <input [disabled]="!codigoEnviado" matInput [type]="hide ? 'password' : 'text'" class="form-control" id="clave2"
+          name="clave2" placeholder="password" [(ngModel)]="password2" #clave2="ngModel" minlength="5" maxlength="40"
+          required>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="clave2.hasError('required')">
+          Es <strong>necesario rellenar </strong> contraseña
+        </mat-error>
+        <mat-error *ngIf="clave2.hasError('minlength') || clave2.hasError('maxlength')">
+          La contraseña debe tener entre 5 y 40 posiciones
+        </mat-error>
+        <mat-hint *ngIf="(clave.valid && clave2.valid && clave.value!=clave2.value)" style="color:red">
+          las contraseñas deben coincidir
+        </mat-hint>
+      </mat-form-field>
+
+      <br /><br />
+      <mat-form-field class="example-full-width">
+        <mat-label>Codigo para reset de password</mat-label>
+        <input [disabled]="!codigoEnviado" matInput class="form-control" id="codigo" name="codigo"
+          placeholder="codigo recibido en email" [(ngModel)]="usuario.codResetPwd" #codigo="ngModel" minlength="6"
+          maxlength="6" required>
+        <mat-error *ngIf="codigo.hasError('required')">
+          Es <strong>necesario rellenar </strong> código</mat-error>
+        <mat-error *ngIf="codigo.hasError('minlength') || codigo.hasError('maxlength')">
+          Nombre debe tener entre 6 posiciones
+        </mat-error>
+      </mat-form-field>
+
+    </form>
+  </div>
+
+  <div class="modal-footer grupo-botones">
+    <button [disabled]="codigoEnviado || email.hasError('pattern') || email.hasError('required')" mat-raised-button
+      class="margin-right" color="primary" (click)='enviarEmail()'
+      >Solicitar código</button>
+    <button [disabled]="!variableForm.form.valid || clave.value!=clave2.value" mat-raised-button 
+      class="margin-right" color="primary" (click)='actualizarPwd()' visible="false"
+      >Actualizar</button>
+    <!-- <button mat-raised-button class="margin-right" color="primary" (click)="activeModal.close('salir')">Salir</button> -->
+  </div>
+
+</form>

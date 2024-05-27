@@ -1,0 +1,40 @@
+<div class="card contenedor"> 
+  <div class="card-header color-modal-header">
+    <h3>Definición de los tipos de obras</h3>
+    <h5 class="card-title">{{tituloBody}}</h5>
+  </div>
+  <div class="card-title">
+    <div *ngIf="!tipoobras" class="alert alert-info">Esperando carga de imagenes</div> 
+    <div *ngIf="tipoobras?.length==0" class="alert alert-info"> Lista vacía
+      <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+      style="margin-right: 8px" (click) = 'create()'>{{'Crear Tipo' |translate}}</button>
+    </div> 
+  </div>
+  <div class="card-body row">
+    <div *ngFor="let tipoobra of tipoobras" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+      <mat-card appearance="outlined" style="margin-bottom: 30px;">
+        <mat-card-header>
+          <img *ngIf="tipoobra?.imgFileName" mat-card-avatar 
+          src= "{{host}}/api/empresa/uploads/img/admin/tipos_peque.png"
+          alt= "Tipos de obras del galeria">
+          <mat-card-title>{{tipoobra.label | slice:0:29}}...</mat-card-title>
+        </mat-card-header>
+          <img *ngIf="tipoobra?.imgFileName"  class="img-thumbnail"
+          src="{{host}}/api/tipoobra/uploads/img/{{tipoobra.imgFileName}}">
+           
+        <mat-card-content>
+          <p> {{tipoobra.descripcion | slice:0:59}}...</p>
+        </mat-card-content>
+        <mat-card-actions>
+
+          <button *ngIf="authService.hasRole('ROLE_ADMIN')" mat-button 
+            style="margin-right: 1px" (click) = 'update(tipoobra)'>{{'Edit' |translate}}</button>
+          <button *ngIf="authService.hasRole('ROLE_ADMIN')" mat-button 
+            style="margin-right: 1px" (click) = 'create()'>{{'Create' |translate}}</button>
+          <button *ngIf="authService.hasRole('ROLE_ADMIN')" mat-button 
+          style="margin-right: 1px" (click) = 'delete(tipoobra)'>{{'Delete' |translate}}</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div> 
+</div>

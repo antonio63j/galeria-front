@@ -1,0 +1,57 @@
+<!-- <div [@routerTransition]> -->
+
+<div class="row">
+
+
+  <div class="col-md-8">
+    <!-- <app-loading [loading]= "loading"></app-loading> -->
+    <div class="loading" *ngIf="shareEmpresaService.slidersData.length==0">
+      <img src="../../assets/images/Spinner-2.gif" 
+      alt="Cargando imágenes, para tu galeria de pedidos online y entrega a domicilio"/> 
+    </div> 
+    
+    <ngb-carousel  *ngIf="shareEmpresaService.slidersData.length>0">
+      <ng-template *ngFor="let sliderData of shareEmpresaService.slidersData" ngbSlide>
+        <img [src] =sliderData.imgFileData
+        alt="Random first slide" class="img-fluid mx-auto d-block rounded" />
+        <div class="carousel-caption">
+          <h5>{{ sliderData.label }}</h5>
+          <!-- <p>{{ slider.descripcion }}</p> -->
+        </div>
+      </ng-template>
+    </ngb-carousel>
+  </div>
+
+  <div class="col-md-4">
+
+    <div class="card" style="background-color:navajowhite">
+      <div class="card-body">
+        <h4 class="card-title text-black">Novedades</h4>
+        <p class="card-text" style="font-size: larger;">
+            {{empresa.descripcionBreve}}
+        </p>    
+      </div>
+    </div>
+
+    <!-- <div class="container-fluid">
+      <div [innerHTML]=empresa.portada></div>
+      <a [routerLink]="['/contacto']" class="btn btn-banner1 my-sm-3 mb-3">Contacte con nosotros</a>
+    </div> -->
+
+    <div class="card">
+      <div class="card-body">
+        <div class="card-text">
+          <div [innerHTML]=empresa.portada></div>
+            <a [routerLink]="['/contacto']" class="btn btn-banner1 my-sm-3 mb-3">Contacte con nosotros</a>
+          </div>  
+        </div>
+    </div>
+
+  </div>
+
+</div>
+<hr />
+
+<router-outlet></router-outlet>
+
+

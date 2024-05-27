@@ -1,0 +1,128 @@
+<form class="scroll">
+  <div class="modal-header color-modal-header">
+    <h4 class="modal-title">{{ 'Sign Up' | translate }}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.close(true)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form #variableForm="ngForm">
+      <div class="form-row">
+
+        <mat-form-field class="col-8">
+          <mat-label>Cuenta de correo</mat-label>
+          <input matInput class="form-control" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" id="email"
+            name="email" placeholder="cuenta@ejemplo.es" [(ngModel)]="usuario.username" #email="ngModel" minlength="5"
+            maxlength="40" required>
+          <mat-hint> Se utilizará para permitir cambio de contraseña y envío de novedades (si así se configura)
+          </mat-hint>
+          <mat-error *ngIf="email.hasError('required')">
+            Es <strong>necesario rellenar </strong> este campo
+          </mat-error>
+          <mat-error *ngIf="email.hasError('minlength') || email.hasError('maxlength')">
+            Debe tener entre 5 y 40 posiciones
+          </mat-error>
+          <mat-error *ngIf="email.hasError('pattern')">
+            Error en formato de correo
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-4">
+          <mat-label>Teléfono</mat-label>
+          <input matInput class="form-control" id="telefono" name="telefono" placeholder="11 o 9 dígitos"
+            [(ngModel)]="usuario.telefono" #telefono="ngModel" minlength="9" maxlength="11">
+
+          <mat-error *ngIf="telefono.hasError('minlength') || telefono.hasError('maxlength')">
+            Debe tener entre 9 y 11 posiciones
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+
+      <br>
+
+      <div class="form-row">
+        <mat-form-field class="col">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" class="form-control" id="clave" name="clave"
+            placeholder="password" [(ngModel)]="usuario.password" #clave="ngModel" minlength="5" maxlength="40"
+            required>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="clave.hasError('required')">
+            Es <strong>necesario rellenar </strong> contraseña</mat-error>
+          <mat-error *ngIf="clave.hasError('minlength') || clave.hasError('maxlength')">
+            La contraseña debe tener entre 5 y 40 posiciones
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col">
+          <mat-label>Repetir contraseña</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" class="form-control" id="clave2" name="clave2"
+            placeholder="password" [(ngModel)]="password2" #clave2="ngModel" minlength="5" maxlength="40" required>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="clave2.hasError('required')">
+            Es <strong>necesario rellenar </strong> contraseña
+          </mat-error>
+          <mat-error *ngIf="clave2.hasError('minlength') || clave2.hasError('maxlength')">
+            La contraseña debe tener entre 5 y 40 posiciones
+          </mat-error>
+          <mat-hint *ngIf="(clave.valid && clave2.valid && clave.value!=clave2.value)" style="color:red">
+            las contraseñas deben coincidir
+          </mat-hint>       
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field class="col">
+          <mat-label>Nombre</mat-label>
+          <input matInput class="form-control" id="nombre" name="nombre" placeholder="tu nombres"
+            [(ngModel)]="usuario.nombre" #nombre="ngModel" minlength="4" maxlength="30" required>
+          <mat-error *ngIf="nombre.hasError('required')">
+            Es <strong>necesario rellenar </strong> nombre</mat-error>
+          <mat-error *ngIf="nombre.hasError('minlength') || nombre.hasError('maxlength')">
+            Nombre debe tener entre 4 y 30 posiciones
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col">
+          <mat-label>Apellidos</mat-label>
+          <input matInput class="form-control" id="apellidos" name="apellidos" 
+            [(ngModel)]="usuario.apellidos" #apellidos="ngModel" minlength="4" maxlength="60">
+          <mat-error *ngIf="apellidos.hasError('minlength') || apellidos.hasError('maxlength')">
+            Nombre debe tener entre 4 y 60 posiciones
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+      <section class="checkbox-section form-row">
+        <div class="col">
+          <mat-checkbox class="checkbox-margin" color="primary" [(ngModel)]="usuario.aceptaEmails" 
+          name="aceptaEmails" labelPosition="after" disabled="false">
+            Acepto emails con novedades
+          </mat-checkbox>
+        </div>
+        <div class="col">
+        <mat-checkbox class="checkbox-margin" color="primary" [(ngModel)]="aceptoCondiciones" 
+        name="aceptaCondiciones" #aceptaCondiciones="ngModel"
+          labelPosition="after" disabled="false">
+          Acepto las condiciones
+        </mat-checkbox>
+      </div>
+      </section>
+
+    </form>
+  </div>
+
+  <div class="modal-footer grupo-botones">
+    <button mat-raised-button class="margin-right" color="primary" (click)='signup(usuario)'
+      [disabled]="!variableForm.form.valid || !aceptaCondiciones.value || clave.value!=clave2.value" >registrar</button>
+    <button mat-raised-button color="primary" (click)="activeModal.close(true)">Salir</button>
+  </div>
+
+</form>

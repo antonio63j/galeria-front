@@ -1,0 +1,140 @@
+<!-- <div class="container" style="border: 228rem;"> -->
+
+<div class="container-fuild con-scroll" *ngIf="lote">
+  <div class="card-header color-modal-header">
+
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.close(true)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 style="text-align: center;">{{lote.label}}</h4>
+  </div>
+
+
+  <div class="card-body row">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+      <div class="card">
+        <img *ngIf="lote?.imgFileName" class="img-thumbnail" 
+        src="{{host}}/api/lote/uploads/img/{{lote.imgFileName}}"
+        alt="Lote seleccionado de nuestra galeria">
+        <br>
+        <p class="color-modal-header" style="text-align: center;">Precio del lote: {{lote.precio | currency : 'EUR'}}</p>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+      <div [innerHTML]=lote.descripcion></div>
+   
+      <br>
+   
+    </div>
+
+    <div>
+
+      <div class="card-body">
+        <div *ngFor="let opt of primeros">
+            <mat-card  style="margin-bottom: 30px;">
+                
+                <mat-card-header style="font-weight: bold;">
+                  {{opt.sugerencia.label | slice:0:37}}
+                </mat-card-header>
+                
+                <mat-card-content>
+                 Alto: {{opt.sugerencia.alto}} cms.;
+                 Ancho: {{opt.sugerencia.ancho}} cms.;
+                 Grosor: {{opt.sugerencia.fondo}} cms
+
+                 <div [innerHTML]=opt.sugerencia.descripcion></div>
+                </mat-card-content>
+
+                <img *ngIf="opt.sugerencia?.imgFileName" class="img-thumbnail" 
+                    src="{{host}}/api/sugerencia/uploads/img/{{opt.sugerencia.imgFileName}}">
+
+                  
+            </mat-card>
+        </div>
+    </div>
+
+      
+      <!-- Sustituido por lo de arriba. adaptacion par artefluido
+      <label class="label-bajo">Primeros</label>
+      <mat-radio-group
+        class="example-radio-group"
+        [(ngModel)]="primero">
+        <mat-radio-button class="example-radio-button" *ngFor="let opt of primeros" [value]="opt.sugerencia">
+          {{opt.sugerencia.label}}
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <label class="label-bajo">Segundos</label>
+      <mat-radio-group
+        class="example-radio-group"
+        [(ngModel)]="segundo">
+        <mat-radio-button class="example-radio-button" *ngFor="let opt of segundos" [value]="opt.sugerencia">
+          {{opt.sugerencia.label}}
+        </mat-radio-button>
+      </mat-radio-group>
+
+
+      <label class="label-bajo">Postres</label>
+      <mat-radio-group
+        class="example-radio-group"
+        [(ngModel)]="postre">
+        <mat-radio-button class="example-radio-button" *ngFor="let opt of postres" [value]="opt.sugerencia">
+          {{opt.sugerencia.label}}
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <div *ngIf="authService.usuario.username">
+        <mat-form-field appearance="fill" class="ancho-select-cantidad">
+          <mat-label>Cantidad</mat-label>
+          <select matNativeControl name="TipoP" #tipoP="ngModel" [(ngModel)]="cantidad" placeholder="Cantidad"
+              (selectionChange)="cambioCantidad()">
+              <option [value]="cantidad" *ngFor="let cantidad of cantidades">{{ cantidad }}</option>
+          </select>
+        </mat-form-field>
+      </div>
+
+    -->
+    
+    <div *ngIf="!authService.usuario.username">
+        <a [routerLink]="['/login']" class="boton-bajo">
+            {{ 'Para añadir al carro es necesario entrar en sesión' | translate }}
+        </a>
+    </div>
+    <br>
+    <div class="grupo-botones">
+        <!-- <button *ngIf="authService.usuario.username" mat-button style="margin-right: 1px" (click)='aceptar()'>{{'Añadir al carro' |translate}}</button> -->
+        <div *ngIf="authService.usuario.username">
+            <!-- <mat-icon matBadge="0" matBadgeColor="warn" [matBadgeHidden]="hidden">shopping_cart</mat-icon> -->
+            <!-- <a  class="boton-bajo" style="margin-right: 1px" (click)='aceptar()'>{{'Añadir al carro' |translate}}</a> -->
+            <button mat-stroked-button color="success"style="margin-right: 7px" (click)='aceptar(lote)'>{{'Añadir al carro'
+                |translate}}</button>
+
+        </div> 
+        <div>
+        <!-- <button mat-button style="margin-right: 1px" (click)="activeModal.close(true)">{{'Salir' |translate}}</button> -->
+        <button mat-stroked-button color="success"style="margin-right: 7px" (click)="activeModal.close(true)">{{'Salir'
+            |translate}}</button> 
+        </div>
+
+    </div>
+
+      <!-- <mat-form-field class="corto">
+        <mat-label>Cantidad </mat-label>
+        <input type="number" [(ngModel)]="cantidad" 
+          min="0" max="20" pattern="^[0-9]{1,2}"
+          (change)="cambioCantidad()" matInput>
+      </mat-form-field>
+      <br>
+
+      <button mat-button style="margin-right: 1px" (click)='aceptar()'>{{'Aceptar' |translate}}</button>
+
+      <button mat-button style="margin-right: 1px" 
+         (click)="activeModal.close(true)">{{'Salir' |translate}}</button> -->
+
+
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,274 @@
+<ng-template #cancelBtn>
+  <button mat-stroked-button color="success" style="margin-right: 7px">{{'Cancelar'
+    | translate}}</button>
+</ng-template>
+<ng-template #confirmBtn>
+  <button mat-stroked-button color="success" style="margin-right: 7px">{{'Confirmar'
+    | translate}}</button>
+</ng-template>
+
+
+<div class="main-content">
+  <div class="container-fluid">
+
+    <div class="row" *ngIf="empresa">
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header card-header-danger color-modal-header">
+            <h4 class="card-title">Datos de la empresa</h4>
+            <p class="card-category">Los datos marcados con * son obligatorios</p>
+          </div>
+          <div class="card-body">
+            <form #variableForm="ngForm">
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Nombre de la empresa</mat-label>
+                    <input matInput class="form-control" name="nombre" placeholder="Empresa"
+                      [(ngModel)]="empresa.nombre" #nombre="ngModel" minlength="2" maxlength="30" required>
+                    <mat-error *ngIf="nombre.hasError('required')">
+                      Es <strong>necesario rellenar </strong> este campo
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>CIF</mat-label>
+                    <input matInput class="form-control" name="cif" placeholder="CIF" [(ngModel)]="empresa.cif"
+                      #cif="ngModel" maxlength="9">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput class="form-control" id="direccion" name="direccion" placeholder="Dirección"
+                      [(ngModel)]="empresa.direccion" #direccion="ngModel" required>
+                    <mat-error *ngIf="direccion.hasError('required')">
+                      Es <strong>necesario rellenar </strong> este campo
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Localidad</mat-label>
+                    <input matInput class="form-control" name="localidad" placeholder="Localidad"
+                      [(ngModel)]="empresa.localidad" #localidad="ngModel" maxlength=40 required>
+                    <mat-error *ngIf="localidad.hasError('required')">
+                      Es <strong>necesario rellenar </strong> este campo
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Provicia</mat-label>
+                    <input matInput class="form-control" name="provincia" placeholder="Provincia"
+                      [(ngModel)]="empresa.provincia" #provincia="ngModel" minlength="4" maxlength="30" required>
+                    <mat-error *ngIf="provincia.hasError('required')">
+                      Es <strong>necesario rellenar </strong> este campo
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput class="form-control" id="telefono" name="telefono" placeholder="teléfono"
+                      [(ngModel)]="empresa.telefono" #telefono="ngModel" minlength="9" maxlength="11" required>
+                    <mat-error *ngIf="telefono.hasError('minlength') || telefono.hasError('maxlength')">
+                      Debe tener entre 9 y 11 posiciones
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Cuenta de correo</mat-label>
+                    <input matInput class="form-control" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                      id="email" name="email" placeholder="cuenta@ejemplo.es" [(ngModel)]="empresa.email"
+                      #email="ngModel" minlength="5" maxlength="50" required>
+                    <mat-error *ngIf="email.hasError('minlength') || email.hasError('maxlength')">
+                      Debe tener entre 5 y 50 posiciones
+                    </mat-error>
+                    <mat-error *ngIf="email.hasError('pattern')">
+                      Error en formato de correo
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>url de la web</mat-label>
+                    <input matInput class="form-control" id="url" name="url" placeholder="https://ejemplo.com"
+                      [(ngModel)]="empresa.urlWeb" #url="ngModel" required>
+                    <!-- <mat-error *ngIf="url.hasError('pattern')">
+                      Error en formato de correo
+                    </mat-error> -->
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Nota breve que se mostrará en pagina principal</mat-label>
+                    <textarea matInput class="form-control"
+                      placeholder="Nota/Novedad breve que aparecerá en página principal" id="descripcionBreve"
+                      name="descripcionBreve" [(ngModel)]="empresa.descripcionBreve" #descripcionBreve="ngModel"
+                      required>
+                                  </textarea>
+                    <mat-error *ngIf="descripcionBreve.hasError('required')">
+                      Es <strong>necesario rellenar </strong> este campo
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput class="form-control" id="horario" name="horario" placeholder="horario"
+                      [(ngModel)]="empresa.horario" #horario="ngModel">
+                  </mat-form-field>
+                </div>
+              </div> -->
+
+              <div class="row container" style="margin-top: 5px;">
+                <div class="col-md-12">
+                  <label style="color: grey;">Texto en portada de la página principal</label>
+                  <angular-editor id="editor1" name="portada" [config]="configPortada" [(ngModel)]="empresa.portada">
+                  </angular-editor>
+                </div>
+              </div>
+              <br>
+
+              <div class="row container" style="text-align: center;">
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Día de descanso</mat-label>
+                    <mat-select [(value)]="empresa.diasDescanso" multiple placeholder="día de descanso"
+                      class="my-long-panel" (selectionChange)="cambioDiaDescanso(empresa.diasDescanso)">
+                      <mat-option *ngFor="let dia of diasDescanso" [value]="dia">{{dia}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <mat-label>Tiempo preparación pedido</mat-label>
+                    <mat-hint>en horas</mat-hint>
+                    <mat-select [(value)]="empresa.horasMinPreparacionPedido"
+                      placeholder="Mínimo horas preparación pedido" class="my-long-panel">
+                      <mat-option [value]="cantidad" *ngFor="let cantidad of cantidades">{{ cantidad }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <mat-label>Anticipación del pedido</mat-label>
+                    <mat-hint>días antelación de entrega</mat-hint>
+                    <mat-select [(value)]="empresa.diasMaxEntregaPedido" placeholder="Máximo dias entrega de pedido"
+                      class="my-long-panel">
+                      <mat-option [value]="cantidad" *ngFor="let cantidad of cantidades">{{ cantidad }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+
+              <div class="row container">
+                <div class="col-md-3">
+                  <mat-label class="cabecera-time">hora Apertura</mat-label>
+                  <ngx-timepicker-field [format]="24" [clockTheme]="oktTheme" #myPickerRef [confirmBtnTmpl]="confirmBtn"
+                    [(ngModel)]="empresa.horaApertura" name="apertura" [cancelBtnTmpl]="cancelBtn" [disabled]="false">
+                  </ngx-timepicker-field>
+                </div>
+
+                <div class="col-md-3">
+                  <mat-label class="cabecera-time">hora Cierre</mat-label>
+                  <ngx-timepicker-field [format]="24" [clockTheme]="oktTheme" #myPickerRef [confirmBtnTmpl]="confirmBtn"
+                    [(ngModel)]="empresa.horaCierre" name="cierre" [cancelBtnTmpl]="cancelBtn" [disabled]="false">
+                  </ngx-timepicker-field>
+                </div>
+
+              </div>
+
+              <ul class="alert alert-danger" *ngIf="erroresValidacion?.length > 0">
+                <h6>Errores de validación detectados por el backend</h6>
+                <li *ngFor="let err of erroresValidacion">
+                  {{err}}
+                </li>
+              </ul>
+            </form>
+          </div> <!-- card-body-->
+          <div class="card-footer grupo-botones">
+            <button mat-raised-button class="margin-right" color="primary" (click)='update(empresa)'
+              [disabled]="!variableForm.form.valid">update</button>
+            <button mat-raised-button class="margin-right" color="primary" (click)="salir()">Salir</button>
+            <button mat-raised-button color="primary" (click)="ayuda()">Ayuda</button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="help" class="col-md-3">
+        <div class="card card-profile">
+          <div class="card-avatar">
+            <a href="javascript:void(0)">
+              <img class="img" src="{{host}}/api/empresa/uploads/img/admin/help.png"
+                alt="Ayuda en las tareas de administración de la página web" />
+            </a>
+          </div>
+          <div class="card-body">
+            <!-- <h6 class="card-category text-gray">Descripción de campos</h6> -->
+            <h4 class="card-title">Campos de este formulario</h4>
+            <ul>
+              <li class="card-description">
+                <h5>
+                  Algunos de estos campos aparecerán en la cabecera y pie de la página principal
+                </h5>
+              </li>
+              <li class="card-description">
+                <h5>
+                  Se trata de datos de contacto y presentación del galeria
+                </h5>
+              </li>
+              <li class="card-description">
+                <h5>
+                  Edita el texto de portada de la página principal
+                </h5>
+              </li>
+              <li class="card-description">
+                <h5>
+                  Aquí se establece el horario y los días de descanso del galeria
+                </h5>
+              </li>
+              <li class="card-description">
+                <h5>
+                  Se define el tiempo máximo para preparar los pedidos online
+                </h5>
+              </li>
+              <li class="card-description">
+                <h5>
+                  Se fija con cuantos días de antelación podemos hacer un pedido online
+                </h5>
+              </li>
+              <li class="card-description">
+                <h5>
+                 Los campos con * son obligatorios
+                </h5>
+              </li>
+            </ul>
+            <div class="card-footer grupo-botones">
+              <button mat-raised-button color="primary" (click)="ayuda()">Salir</button>
+            </div>
+
+          </div>
+        </div>
+        <!--  </div> -->
+        <!-- col-md9-->
+      </div> <!-- row-->
+    </div> <!-- container fluid-->
+  </div> <!-- main container-->

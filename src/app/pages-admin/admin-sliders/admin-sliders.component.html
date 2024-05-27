@@ -1,0 +1,49 @@
+<div class="card contenedor">
+  <div class="card-header color-modal-header">
+    <h3>Configuración imagenes de portada (sliders)</h3>
+    <h5 class="card-title">{{tituloBody}}</h5>
+  </div>
+  <div class="card-title">
+    <div *ngIf="!sliders" class="alert alert-info">Esperando carga de imagenes</div>
+    <div *ngIf="sliders?.length==0" class="alert alert-info"> Lista vacía
+      <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm" style="margin-right: 8px"
+        (click)='create()'>{{'Crear Slider' |translate}}</button>
+    </div>
+  </div>
+  <div class="card-body row">
+    <div *ngFor="let slider of sliders" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+      <mat-card appearance="outlined" style="margin-bottom: 30px;">
+        <mat-card-header>
+          <!-- <div mat-card-avatar class="example-header-image" background-image= "http://localhost:8080/api/empresa/uploads/img/indra3.jpg"></div> -->
+          <img *ngIf="slider?.imgFileName" mat-card-avatar src="{{host}}/api/empresa/uploads/img/admin/home_peque.png">
+          <!-- 
+        <mat-card-title *ngIf="slider?.label.length>33">{{slider.label | slice:0:29}}...</mat-card-title>
+        <mat-card-title *ngIf="slider?.label.length<33">{{slider.label}}</mat-card-title> -->
+          <mat-card-title>{{slider.label}}</mat-card-title>
+        </mat-card-header>
+
+        <!-- <img mat-card-image *ngIf="slider?.imgFileName" class="img-thumbnail"
+        src="{{host}}/api/empresa/uploads/img/sliders/{{slider.imgFileName}}"> -->
+
+        <img *ngIf="slider?.imgFileName" class="img-thumbnail"
+          src="{{host}}/api/empresa/uploads/img/sliders/{{slider.imgFileName}}">
+
+
+        <mat-card-content>
+          <!-- <p *ngIf="slider.descripcion.length>33">{{slider.descripcion | slice:0:29}}...</p>
+        <p *ngIf="slider.descripcion.length<33">{{slider.descripcion}}</p> -->
+          <p>{{slider.descripcion | slice:0:29}}...</p>
+        </mat-card-content>
+        <mat-card-actions>
+
+          <button *ngIf="authService.hasRole('ROLE_ADMIN')" mat-button style="margin-right: 1px"
+            (click)='update(slider)'>{{'Edit' |translate}}</button>
+          <button *ngIf="authService.hasRole('ROLE_ADMIN')" mat-button style="margin-right: 1px"
+            (click)='create()'>{{'Create' |translate}}</button>
+          <button *ngIf="authService.hasRole('ROLE_ADMIN')" mat-button style="margin-right: 1px"
+            (click)='delete(slider)'>{{'Delete' |translate}}</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

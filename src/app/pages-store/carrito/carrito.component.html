@@ -1,0 +1,189 @@
+<div class="card contenedor">
+  <!-- <div class="card-header color-modal-header"> -->
+  <div class="card-header">
+    <div class="row" style="justify-content: center;">
+      <div>
+        <h3 style="text-align: center !important; ">Carrito
+          &nbsp;&nbsp; Total &nbsp;{{carrito.total | currency:'EUR'}}
+        </h3>
+      </div>
+      <!-- <div>
+        &nbsp;&nbsp;
+        <button mat-stroked-button [routerLink]="['tramitar', carrito.id]" color="success"
+          style="margin-right: 7px">{{'Tramitar carrito' | translate}}</button>
+      </div> -->
+    </div>
+  </div>
+
+
+  <div class="card-title">
+    <div *ngIf="!carrito" class="alert alert-info">Esperando carga carrito</div>
+    <div *ngIf="carrito.numArticulos==0" class="alert alert-info"> Carrito vacío</div>
+    <div *ngIf="carrito.numArticulos>0">
+      <!-- <router-outlet> </router-outlet> -->
+      <app-tramitar-carrito (solicitarTramitarCarrito)= "tramitar($event)"></app-tramitar-carrito>  
+    </div>
+  </div>
+
+  <div class="card-body contenido-carrito-centrado">
+
+    <!-- Primero se muestran las sugerencias del carrito -->
+    <div *ngFor="let lineaSugerencia of carrito.pedidoLineaSugerencias">
+
+      <mat-card appearance="outlined" class="card contenedor">
+        <mat-card-title class="titulo-card">
+          <h5 style="font-weight: bold;">{{lineaSugerencia.sugerencia.label | slice:0:80}}
+          </h5>
+          <h6>&nbsp;Precio &nbsp;{{lineaSugerencia.sugerencia.precio | currency : 'EUR'}}
+          </h6>      
+        </mat-card-title>
+
+        <mat-card-content>
+          <div fxLayout="row wrap">
+            <mat-card appearance="outlined" fxFlex="315px" fxFlex.xs="100" fxFlexOrder.gt-xs="1">
+              <img *ngIf="lineaSugerencia.sugerencia.imgFileName" class="img-thumbnail"
+                src="{{host}}/api/sugerencia/uploads/img/{{lineaSugerencia.sugerencia.imgFileName}}">
+            </mat-card>
+            <mat-card style="padding: 17px;" appearance="outlined" fxFlex="calc(100%-315px)" fxFlex.xs="100" fxFlexOrder.gt-xs="2">
+              <div [innerHTML]=lineaSugerencia.sugerencia.descripcion></div>
+
+
+              <!--
+              <mat-form-field appearance="fill" class="ancho-select-cantidad">
+                <mat-label>Cantidad</mat-label>
+                <mat-select [(value)]="lineaSugerencia.cantidad" placeholder="Cantidad" 
+                  (selectionChange)="cambioCantidadSugerencia(lineaSugerencia)">
+                  <mat-option [value]="cantidad" *ngFor="let cantidad of cantidades">{{ cantidad }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              -->
+
+              <div *ngIf="lineaSugerencia.precioInicio!== lineaSugerencia.sugerencia.precio">
+                  <br>
+                <mat-label style="font-size: 14px; color:red;">
+                  El precio de este producto se ha actualizado, precio anterior
+                  {{lineaSugerencia.precioInicio}}
+                </mat-label>
+              </div>
+
+              <div>
+                <div *ngIf="lineaSugerencia.sugerencia.loteNombre">
+                  Obra incluida en el lote "{{lineaSugerencia.sugerencia.loteNombre}}"
+                </div>
+    
+                Alto {{lineaSugerencia.sugerencia.alto}},
+                Ancho {{lineaSugerencia.sugerencia.ancho}},
+                Grosor {{lineaSugerencia.sugerencia.fondo}} cms.
+    
+                <br>
+                Clasificación de la obra: {{lineaSugerencia.sugerencia.tipo}}
+                <br>
+                Estado: {{lineaSugerencia.sugerencia.estado}}
+                <br>
+              </div>              
+              
+              <div class="grupo-botones" style="margin-top: 20px; margin-left: 2px;">
+                <button mat-stroked-button color="success" style="margin-right: 7px"
+                  (click)='deleteLineaSugerencia(lineaSugerencia)'>{{'Eliminar del carro' | translate}}</button>
+                <button mat-stroked-button color="success" [routerLink]="['/store/galeria']"
+                  style="margin-right: 7px">{{'Continuar compra' |
+                  translate}}</button>
+              </div>
+
+
+            </mat-card>
+          </div>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+
+    
+    <!-- Se muestra los lotes y con sus obras -->
+    <div *ngFor="let lineaLote of carrito.pedidoLineaLotes">
+      <mat-card appearance="outlined" class="card contenedor">
+
+        <mat-card-title class="titulo-card">
+          <h5 style="font-weight: bold;">{{lineaLote.lote.label | slice:0:80}}
+          </h5>
+          <h6>&nbsp;Precio &nbsp;{{lineaLote.lote.precio | currency : 'EUR'}}
+          </h6>    
+        </mat-card-title>
+
+        <mat-card-content>
+          <div fxLayout="row wrap">
+            <mat-card style="padding: 17px;" appearance="outlined" fxFlex="315px" fxFlex.xs="100" fxFlexOrder.gt-xs="1">
+              <img *ngIf="lineaLote.lote.imgFileName" class="img-thumbnail"
+                src="{{host}}/api/lote/uploads/img/{{lineaLote.lote.imgFileName}}"
+                alt="Lote en el carrito">
+                <br>
+                <div [innerHTML]=lineaLote.lote.descripcion></div>
+
+                <div *ngIf="lineaLote.precioInicio!== lineaLote.lote.precio">
+                  <br>
+                  <mat-label style="font-size: 14px; color:red;">
+                    El precio de este producto se ha actualizado, precio anterior
+                    {{lineaLote.precioInicio}}
+                  </mat-label>
+                </div>
+
+
+                <div class="grupo-botones" style="margin-top: 20px; margin-left: 20px;">
+                  <button mat-stroked-button color="success" style="margin-right: 7px"
+                    (click)='deleteLineaLote(lineaLote)'>{{'Eliminar del carro' | translate}}</button>
+  
+                  <button mat-stroked-button color="success" [routerLink]="['/store/lote']"
+                    style="margin-right: 7px">{{'Continuar compra' | translate}}</button>
+                </div>
+
+            </mat-card>
+            <mat-card style="padding: 17px;" appearance="outlined" fxFlex="calc(100%-315px)" fxFlex.xs="100" fxFlexOrder.gt-xs="2">
+              <!-- lista de obras del lote -->             
+
+              <div *ngFor="let opt of lineaLote.lote.loteSugerencias">
+                <mat-card  style="margin-bottom: 30px;">
+                    
+                    <mat-card-header style="font-weight: bold;">
+                      {{opt.sugerencia.label | slice:0:37}}
+                    </mat-card-header>
+                    
+                    <mat-card-content>
+                     Alto: {{opt.sugerencia.alto}} cms.;
+                     Ancho: {{opt.sugerencia.ancho}} cms.;
+                     Grosor: {{opt.sugerencia.fondo}} cms
+    
+                     <div [innerHTML]=opt.sugerencia.descripcion></div>
+                    </mat-card-content>
+    
+                    <img *ngIf="opt.sugerencia?.imgFileName" class="img-thumbnail" 
+                        src="{{host}}/api/sugerencia/uploads/img/{{opt.sugerencia.imgFileName}}">
+    
+                      
+                </mat-card>
+            </div>
+
+            <!-- fin lista de obras del lote -->
+
+
+            </mat-card>
+          </div>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+    <!-- Gestion para pedidoLineaLotes -->
+  </div>
+
+  <!-- 
+    <div class="card-footer text-muted con-scroll">
+      <div class="row">
+          <div class="col">
+              <paginator-nav *ngIf="paginador" [paginador]="paginador" [sizes]="[5, 10, 15, 30, 50]" [sizePage]=+filtroSugerencia.size (messageToEmit)="getPagina($event)">
+              </paginator-nav>
+          </div>
+      </div>
+    </div> 
+  -->
+  <!-- card-footer -->
+
+</div>

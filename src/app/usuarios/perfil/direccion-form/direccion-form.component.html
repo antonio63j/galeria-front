@@ -1,0 +1,115 @@
+<div class="container-fluid con-scroll">
+  <div *ngIf="direccion">
+    <div class="card">
+      <!-- <div class="card-header card-header-danger color-modal-header"> -->
+      <div class="card-header color-modal-header">
+        <h4 class="card-title">Dirección de usuario</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.close(true)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="card-body">
+        <form #variableForm="ngForm">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-label>Calle</mat-label>
+                <input matInput class="form-control" name="calle" placeholder="Calle"
+                  [(ngModel)]="direccion.calle" #calle="ngModel" minlength="3" maxlength="60" required>
+                <mat-error *ngIf="calle.hasError('maxlength') || calle.hasError('minlength')">
+                  Debe tener entre 3 y 60 posiciones
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Número</mat-label>
+                <input matInput class="form-control" name="numero" placeholder="Número / Sin Número"
+                  [(ngModel)]="direccion.numero" #numero="ngModel" maxlength="10">
+                <mat-error *ngIf="numero.hasError('maxlength')" required>
+                  Debe tener máximo 10 posiciones
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Planta</mat-label>
+                <input matInput class="form-control" name="planta" placeholder="Planta" [(ngModel)]="direccion.planta"
+                  #numero="ngModel" maxlength="12">
+                <mat-error *ngIf="numero.hasError('maxlength')">
+                  Debe tener máximo 12 posiciones
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Puerta</mat-label>
+                <input matInput class="form-control" name="puerta" placeholder="Puerta" [(ngModel)]="direccion.puerta"
+                  #puerta="ngModel" maxlength="10">
+                <mat-error *ngIf="puerta.hasError('maxlength')">
+                  Debe tener máximo 10 posiciones
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Código postal</mat-label>
+                <input matInput class="form-control" name="cp" placeholder="Código postal"
+                  [(ngModel)]="direccion.codigoPostal" #cp="ngModel" minlength="5" maxlength="5" required>
+                <mat-error *ngIf="cp.hasError('maxlength') || cp.hasError('minlength')">
+                  Debe tener 5 posiciones
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Municipio</mat-label>
+                <input matInput class="form-control" name="municipio" placeholder="Municipio"
+                  [(ngModel)]="direccion.municipio" #municipio="ngModel" minlength="3" maxlength="40" required>
+                <mat-error *ngIf="municipio.hasError('maxlength') || municipio.hasError('minlength')">
+                  Debe tener entre 3 y 40 posiciones
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Provincia</mat-label>
+                <input matInput class="form-control" name="provincia" placeholder="Provincia"
+                  [(ngModel)]="direccion.provincia" #provincia="ngModel" minlength="3" maxlength="40" required>
+                <mat-error *ngIf="provincia.hasError('maxlength') || provincia.hasError('minlength')">
+                  Debe tener entre 3 y 40 posiciones
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <!-- </div>   -->
+          <ul class="alert alert-danger" *ngIf="erroresValidacion?.length > 0">
+            <h6>Errores de validación detectados por el backend</h6>
+            <li *ngFor="let err of erroresValidacion">
+              {{err}}
+            </li>
+          </ul>
+        </form>
+      </div>
+      <div class="card-footer grupo-botones">
+        <button *ngIf="direccion.id" mat-raised-button class="margin-right" color="primary" (click)='update(direccion)'
+          [disabled]="!variableForm.form.valid">Aceptar</button>
+
+        <button *ngIf="!direccion.id" mat-raised-button class="margin-right" color="primary"
+          (click)="addDireccion(direccion)" [disabled]="!variableForm.form.valid">Aceptar</button>
+
+        <button mat-raised-button class="margin-right" color="primary" (click)="activeModal.close(true)">Cancelar</button>
+
+
+      </div>
+    </div>
+  </div>
+</div>

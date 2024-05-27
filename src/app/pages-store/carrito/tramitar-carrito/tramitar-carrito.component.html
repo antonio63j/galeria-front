@@ -1,0 +1,97 @@
+<div class="card contendor">
+  <div class="card-header color-modal-header">
+    <h3 style="text-align: center;">Tramitar carrito</h3>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-2">
+        <mat-form-field class="example-full-width">
+          <mat-label>Lugar de entrega</mat-label>
+          <mat-select [(value)]="entregaDefault" (selectionChange)="cambioEntrega(entregaDefault)"
+            placeholder="Lugar de entrega">
+            <mat-option *ngFor="let item of opcionesEntrega" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!--
+      <div class="col-md-4">   
+        <mat-form-field class="example-full-width"
+          [hidden]="entregaDefault==lugarEntregaGaleria">
+          <mat-select [(value)]="direccionDefault" (selectionChange)="cambioDireccion(direccionDefault)"
+            placeholder="Seleccione dirección de entrega">
+            <mat-option *ngFor="let item of opcionesDireccion" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      -->
+      <div *ngIf="numDirecciones>0" class="col-md-4">   
+        <mat-form-field class="example-full-width">
+          <mat-select [(value)]="direccionDefault" (selectionChange)="cambioDireccion(direccionDefault)"
+            placeholder="Seleccione dirección de entrega">
+            <mat-option *ngFor="let item of opcionesDireccion" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+       
+      </div>
+      <div class="col-md-3">
+        <button mat-stroked-button [routerLink]="['/perfil']" color="success">Añadir dirección</button>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Día de entrega del pedido</mat-label>
+          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Día entrega del pedido"
+            [(ngModel)]="chosenDate" (dateChange)="dateChanged()">
+          <mat-datepicker-toggle matSuffix [for]="picker">
+          </mat-datepicker-toggle>
+          <mat-datepicker touchUi="false" [dateClass]="dateClass" #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-3">
+        <mat-label style="font-size: 12px; color:dimgrey;">Hora entrega del pedido</mat-label>
+        <ngx-timepicker-field [format]="24" [clockTheme]="oktTheme" (timeChanged)="timeChanged($event)" [min]="minTime"
+          [max]="maxTime" #myPickerRef [confirmBtnTmpl]="confirmBtn" [(ngModel)]="chosenTime"
+          [cancelBtnTmpl]="cancelBtn" [disabled]="false">
+        </ngx-timepicker-field>
+
+        <ng-template #cancelBtn>
+          <button mat-stroked-button color="success" style="margin-right: 7px">{{'Cancelar'
+            | translate}}</button>
+        </ng-template>
+        <ng-template #confirmBtn>
+          <button mat-stroked-button color="success" style="margin-right: 7px">{{'Confirmar'
+            | translate}}</button>
+        </ng-template>
+
+      </div>
+
+      <div class="col-md-6">
+        <mat-label style="font-size: 12px; color:dimgrey;">Adjuntar nota (máximo 300 carateres)</mat-label>
+        <textarea class="form-control" [(ngModel)]="nota" placeholder="Nota para el pedido" maxlength="300"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-12">
+        <button mat-stroked-button (click)="confirmar()" color="success">{{'Confirmar compra' | translate}}</button>
+        &nbsp;
+        <button mat-stroked-button [routerLink]="['/store/galeria']" color="success">{{'Cancelar'
+          | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-footer">
+  <ul>
+    <li>Nuestro horario es de {{empresa.horaApertura}}h a {{empresa.horaCierre}}h</li>
+    <li>Tiempo mínimo de elavoración de un pedido: {{empresa.horasMinPreparacionPedido}} horas</li>
+    <li>Puede hacer su pedido con hasta {{empresa.diasMaxEntregaPedido}} días de adelanto</li>
+  </ul>
+</div>

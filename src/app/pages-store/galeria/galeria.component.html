@@ -1,0 +1,66 @@
+<div class="card contenedor">
+    <div class="card-header color-modal-header">
+        <h3 style="text-align: center;">Galería</h3>
+    </div>
+    <div class="card-title">
+        <div *ngIf="!sugerencias" class="alert alert-info">Esperando carga de sugerencias</div>
+        <div *ngIf="sugerencias?.length==0" class="alert alert-info"> Lista vacía
+        </div>
+
+        <mat-slide-toggle style="margin-left: 30px; margin-top: 15px;" [(ngModel)]="filterChecked"
+            (change)="changedFilter()">
+            filtros y ordenación
+        </mat-slide-toggle>
+
+        <div *ngIf="filterChecked" class="filtro">
+            <dynamic-form [fields]="regConfig" (submit)="submit($event)">
+
+            </dynamic-form>
+        </div>
+    </div>
+
+    <div class="card-body row">
+        <div *ngFor="let sugerencia of sugerencias" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+            <mat-card appearance="outlined" style="margin-bottom: 30px;">
+                <mat-card-header>           
+                    <p style="font-weight: bold;">{{sugerencia.label | slice:0:79}} </p>
+                </mat-card-header>
+                <img *ngIf="sugerencia?.imgFileName" class="img-thumbnail" 
+                (click)='comprar(sugerencia)' style="cursor: pointer;"
+                    src="{{host}}/api/sugerencia/uploads/img/{{sugerencia.imgFileName}}">
+                <mat-card-content>
+                    <!-- <div [innerHTML]=sugerencia.descripcion></div> -->
+                    Alto: {{sugerencia.alto}};
+                    Ancho: {{sugerencia.ancho}};
+                    Grosor: {{sugerencia.fondo}} cms
+
+                </mat-card-content>
+
+                <mat-card-content>
+                    Precio: {{sugerencia.precio | currency : 'EUR'}}
+                </mat-card-content>
+                
+                <mat-card-content>
+                    Estado: {{sugerencia.estado}}
+                </mat-card-content>
+                <!--
+                <mat-card-actions>
+                    <button mat-stroked-button color="success" style="margin-right: 1px"
+                        (click)='comprar(sugerencia)'>{{'Entrar' |translate}}</button>
+                </mat-card-actions>
+                -->
+            </mat-card>
+        </div>
+    </div>
+    <div class="card-footer text-muted con-scroll">
+        <div class="row">
+            <div class="col">
+                <paginator-nav *ngIf="paginador" [paginador]="paginador" [sizes]="[8, 12, 20, 32, 40]"
+                    [sizePage]=+filtroSugerencia.size (messageToEmit)="getPagina($event)">
+                </paginator-nav>
+            </div>
+        </div>
+    </div>
+    <!-- card-footer -->
+
+</div>

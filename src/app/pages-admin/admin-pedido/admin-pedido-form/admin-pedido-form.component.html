@@ -1,0 +1,140 @@
+<div class="card contendor" *ngIf="pedido">
+  <div class="card-header color-modal-header">
+    <h3 style="text-align: center;">Detalle del pedido&nbsp;&nbsp; Total &nbsp;{{pedido.total | currency:'EUR'}}</h3>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-2">
+        <mat-form-field class="example-full-width">
+          <mat-label style="font-size: 14px;">Hora de entrega</mat-label>
+          <input style="margin-top: 12px;" matInput disabled="true"> {{pedido.fechaEntrega}}
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="example-full-width">
+          <mat-label style="font-size: 14px;">Lugar de entrega</mat-label>
+          <input style="margin-top: 12px;" matInput disabled="true">
+          {{pedido.entregaPedido}}
+        </mat-form-field>
+      </div>
+      <div class="col-md-6" *ngIf="pedido.direccion">
+        <mat-form-field class="example-full-width">
+          <mat-label style="font-size: 14px;">Dirección</mat-label>
+          <input style="margin-top: 12px;" matInput disabled="true">
+          {{pedido.direccion.calle}}, {{pedido.direccion.numero}}, {{pedido.direccion.planta}},
+          {{pedido.direccion.puerta}}, {{pedido.direccion.codigoPostal}}, {{pedido.direccion.municipio}}
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="example-full-width">
+          <mat-label style="font-size: 14px;">Hora de registro</mat-label>
+          <input style="margin-top: 12px;" matInput disabled="true">
+          {{pedido.fechaRegistro}}
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2">
+        <mat-form-field class="width-120">
+          <mat-label>Cambiar estado pedido</mat-label>
+          <mat-select [(value)]="estado" placeholder="Cambiar estado">
+            <mat-option *ngFor="let item of opcionesEstado" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-8">
+        <mat-form-field class="example-full-width">
+          <textarea matInput placeholder="Nota del cliente" [(ngModel)]="pedido.nota" disabled="true">
+          </textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12 grupo-botones">
+        <button mat-stroked-button color="success" (click)="cambiarEstado(pedido)">{{'Cambiar estado del pedido' |
+          translate}}</button>
+        &nbsp;
+        <button mat-stroked-button (click)="salir()" color="success">{{'Salir' | translate}}</button>
+      </div>
+    </div>
+    <br>
+    <div class="card-body contenido-carrito-centrado">
+      <div *ngFor="let lineaSugerencia of pedido.pedidoLineaSugerencias">
+        <mat-card appearance="outlined" class="card contenedor">
+          <mat-card-title class="titulo-card">
+            <h4>{{lineaSugerencia.sugerencia.label | slice:0:80}} &nbsp;X{{lineaSugerencia.cantidad}}
+              &nbsp;&nbsp; (Precio unidad &nbsp;{{lineaSugerencia.sugerencia.precio | currency : 'EUR'}})
+            </h4>
+          </mat-card-title>
+
+          <mat-card-content>
+            <div fxLayout="row wrap">
+              <mat-card appearance="outlined" fxFlex="315px" fxFlex.xs="100" fxFlexOrder.gt-xs="1">
+                <img *ngIf="lineaSugerencia.sugerencia.imgFileName" class="img-thumbnail"
+                  src="{{host}}/api/sugerencia/uploads/img/{{lineaSugerencia.sugerencia.imgFileName}}">
+              </mat-card>
+              <mat-card appearance="outlined" fxFlex="calc(100%-315px)" fxFlex.xs="100" fxFlexOrder.gt-xs="2">
+                <div style="padding: 17px;" [innerHTML]=lineaSugerencia.sugerencia.descripcion></div>
+                <br>
+                <div *ngIf="lineaSugerencia.precioInicio!== lineaSugerencia.sugerencia.precio">
+                  <br>
+                  <mat-label style="font-size: 14px; color:red;">
+                    El precio de este producto se ha actualizado, precio anterior
+                    {{lineaSugerencia.precioInicio}}
+                  </mat-label>
+                </div>
+              </mat-card>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div *ngFor="let lineaLote of pedido.pedidoLineaLotes">
+        <mat-card appearance="outlined" class="card contenedor">
+
+          <mat-card-title class="titulo-card">
+            <h4>{{lineaLote.lote.label | slice:0:80}} &nbsp;X{{lineaLote.cantidad}}
+              &nbsp;&nbsp; (Precio unidad &nbsp;{{lineaLote.lote.precio | currency : 'EUR'}})
+            </h4>
+          </mat-card-title>
+          <mat-card-content>
+            <div fxLayout="row wrap">
+              <mat-card appearance="outlined" fxFlex="315px" fxFlex.xs="100" fxFlexOrder.gt-xs="1">
+                <img *ngIf="lineaLote.lote.imgFileName" class="img-thumbnail"
+                  src="{{host}}/api/lote/uploads/img/{{lineaLote.lote.imgFileName}}">
+              </mat-card>
+              <mat-card appearance="outlined" fxFlex="calc(100%-315px)" fxFlex.xs="100" fxFlexOrder.gt-xs="2">
+                <div style="padding: 17px !important;" [innerHTML]=lineaLote.lote.descripcion></div>
+                <br>
+                <!-- Eliminamos mat-radio-group puesto que postre es la unica que sale ckecked-->
+                <mat-radio-button class="example-radio-button" disabled="true" checked="true">
+                  {{lineaLote.primero.label}}
+                </mat-radio-button>
+                <mat-radio-button class="example-radio-button" disabled="true" checked="true">
+                  {{lineaLote.segundo.label}}
+                </mat-radio-button>
+                <mat-radio-button class="example-radio-button" disabled="true" checked="true">
+                  {{lineaLote.postre.label}}
+                </mat-radio-button>
+
+                <div *ngIf="lineaLote.precioInicio!== lineaLote.lote.precio">
+                  <br>
+                  <mat-label style="font-size: 14px; color:red;">
+                    El precio de este producto se ha actualizado, precio anterior
+                    {{lineaLote.precioInicio}}
+                  </mat-label>
+                </div>
+
+              </mat-card>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

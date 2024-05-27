@@ -1,0 +1,107 @@
+
+@import "../../../styles/mis-variables";
+
+
+// $topnav-background-color: #222;
+
+:host {
+  .navbar {
+    background-color: $topnav-background-color;
+
+    .navbar-brand {
+      color: #fff;
+    }
+
+    .nav-item>a {
+      color: #999;
+
+      &:hover {
+        color: $oxido-claro;
+      }
+    }
+
+    .dropdown-item{
+        &:hover {
+            background-color: $oxido-claro;
+        }
+    }
+  }
+
+  .messages {
+    width: 300px;
+
+    .media {
+      border-bottom: 1px solid #ddd;
+      padding: 5px 10px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .media-body {
+      h5 {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .small {
+        margin: 0;
+      }
+
+      .last {
+        font-size: 12px;
+        margin: 0;
+      }
+    }
+  }
+}
+
+// -----
+
+.navbar {
+  min-height: 100px;
+}
+
+div .logo {
+  float: left;
+}
+
+.logo a {
+  float: left;
+  font-size: 1em;
+  text-transform: capitalize;
+  display: initial;
+  margin: 0;
+  letter-spacing: 1px;
+  color: #fff;
+  padding: 12px 0;
+  font-weight: 600;
+}
+
+.logo a i {
+  color: $oxido;
+
+}
+
+div h5 a {
+  float: left;
+  font-size: .7em;
+  display: initial;
+  margin: 0;
+  letter-spacing: 1px;
+  color: rgb(239, 242, 245);
+  padding: 1px 0;
+  font-weight: 600;
+  line-height: 1px;
+}
+
+div a i {
+  color: $oxido;
+  margin-right: 5px;
+}
+
+.navbar-toggler {
+  border-color: $oxido;
+  border-width: 3px;
+}

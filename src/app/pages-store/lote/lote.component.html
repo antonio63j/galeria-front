@@ -1,0 +1,38 @@
+
+<div class="card contenedor">
+  <div class="card-header color-modal-header">
+    <h3 style="text-align: center;">Lotes de obras</h3>
+  </div>
+  <div class="card-title">
+    <div *ngIf="!lotes" class="alert alert-info">Esperando carga de lotes</div>
+    <div *ngIf="lotes?.length==0" class="alert alert-info"> Lista vacía
+    </div>
+  </div>
+
+  <div class="card-body row">
+    <div *ngFor="let lote of lotes" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+      <mat-card appearance="outlined" style="margin-bottom: 30px;">
+        <mat-card-header>
+          <p style="font-weight: bold;">{{lote.label | slice:0:37}}</p>
+        </mat-card-header>
+        <img *ngIf="lote?.imgFileName" class="img-thumbnail"
+        (click)='comprar(lote)' style="cursor: pointer;"
+        src="{{host}}/api/lote/uploads/img/{{lote.imgFileName}}"
+        alt="comprar lote">
+        <mat-card-content>
+          Precio: {{lote.precio | currency : 'EUR'}}
+        </mat-card-content>
+        <mat-card-content>
+          Estado:
+        </mat-card-content>
+        <!--
+        <mat-card-actions>
+          <button mat-stroked-button color="success" style="margin-right: 1px"
+            (click)='comprar(lote)'>{{'Entrar' |translate}}
+          </button>
+        </mat-card-actions>
+        -->
+      </mat-card>
+    </div>
+  </div>
+</div>

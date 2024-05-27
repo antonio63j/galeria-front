@@ -1,0 +1,29 @@
+.filtro {
+    width: 100%;
+    // padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.contenedor {
+    width: 80%;
+    // margin: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+@media screen and (max-width: 576px) {
+    .contenedor {
+        width: 95%;
+        margin: 1.5%;
+    }
+}
+
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+mat-card-title,
+mat-card-content>p {
+    font-size: 15px ! important;
+    font-family: Helvetica;
+    text-align: center ! important;
+    font-weight: bold;
+}

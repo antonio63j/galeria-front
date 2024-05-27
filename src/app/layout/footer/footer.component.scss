@@ -1,0 +1,73 @@
+
+@import "../../../styles/mis-variables";
+
+footer,.copyright{
+	background: #191919;
+}
+.copyright {
+    border-top: 1px solid #555;
+}
+.footer-grids h4 {
+    color: #eee;
+    font-size: 22px;
+}
+.footer-grids h5 {
+    color: #666;
+}
+.footer-grids h5 span{
+    color: #f85a40;
+}
+
+.copyright p ,.copyright p  a, .footer-grids p{
+    font-size: 15px;
+    color: #777;
+	font-weight: normal;
+    letter-spacing: .5px;
+}
+
+.footer-grids p a{
+    font-size: 15px;
+    color: $oxido;
+	font-weight: normal;
+    letter-spacing: .5px;
+}
+
+.footer-grids ul li a {
+    font-size: 15px;
+    color: $oxido;
+	font-weight: normal;
+    letter-spacing: 1px;
+}
+.footer-grids ul li {
+    list-style-type: none;
+}
+
+.footer-grids input[type="email"] {
+    background: #fff;
+    box-shadow: none !important;
+    padding: 12px 15px;
+    color: #777;
+    font-size: 14px;
+    width: 65% !important;
+    border: none;
+	letter-spacing: 1px;
+    outline: none;
+}
+.footer-grids button.btn {
+    // background: #f85a40;
+    background: $oxido;
+    color: #fff;
+    font-size: 14px;
+    width: 34% !important;
+    letter-spacing: 1px;
+    padding: 12px;
+    display: inline-block;
+	border:none;
+    outline: none;
+	cursor: pointer;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+}

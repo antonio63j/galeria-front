@@ -1,0 +1,93 @@
+@import 'bootstrap/scss/bootstrap';
+@import "../../../styles/mis-variables";
+
+.my-disable{
+  pointer-events:none;
+  opacity: 0.66;
+}
+
+.my-invisible{
+  visibility: hidden;
+}
+
+.arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  border-bottom: 5px solid black;
+  display: inline-block;
+  margin-right: 14px;
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  border-top: 5px solid black;
+  display: inline-block;
+  margin-right: 14px;
+}
+
+// .arrow {
+//   border: solid black;
+//   border-width: 0 3px 3px 0;
+//   display: inline-block;
+//   padding: 5px;
+// }
+
+// .right {
+//   transform: rotate(-45deg);
+//   -webkit-transform: rotate(-45deg);
+// }
+
+// .left {
+//   transform: rotate(135deg);
+//   -webkit-transform: rotate(135deg);
+// }
+
+// .up {
+//   transform: rotate(-135deg);
+//   -webkit-transform: rotate(-135deg);
+//   margin-right: 5px;
+
+// }
+
+// .down {
+//   transform: rotate(45deg);
+//   -webkit-transform: rotate(45deg);
+// }
+
+.bloqueoFiltro {
+  color:$oxido;
+}
+
+.desbloqueoFiltro {
+  color: black;
+}
+
+.example-margin {
+  margin: 1px;
+}
+
+.con-scroll {
+  overflow: scroll;
+}
+
+.btncolumn {
+    width: 60px;
+}
+
+tbody tr td , thead tr th , thead tr th mat-slide-toggle {
+    vertical-align:middle;
+  }
+
+@media screen and (max-width: 600px) {
+    .img-thumbnail2 {
+      width: 120px !important ;
+      height: 80px !important ;
+    }
+  }

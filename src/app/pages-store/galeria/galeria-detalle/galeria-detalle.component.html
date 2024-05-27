@@ -1,0 +1,75 @@
+<div class="container-fuild con-scroll" *ngIf="sugerencia">
+    <div class="card-header color-modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.close(true)">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 style="text-align: center;">{{sugerencia.label}}</h4>
+    </div>
+
+
+    <div class="card-body row">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+            <div class="card">
+                <img *ngIf="sugerencia?.imgFileName" class="img-thumbnail"
+                    src="{{host}}/api/sugerencia/uploads/img/{{sugerencia.imgFileName}}"
+                    alt="Sugerencia de la galeria seleccionada">
+                <br>
+                <p class="color-modal-header" style="text-align: center;">Precio: {{sugerencia.precio | currency :
+                    'EUR'}}</p>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+            <div *ngIf="sugerencia.loteNombre">
+              Esta obra está incluida en el lote "{{sugerencia.loteNombre}}"
+            </div>
+            <br>
+            <div [innerHTML]=sugerencia.descripcion></div>
+            <br>
+
+            <!-- Una obra de arte es única
+            <div *ngIf="authService.usuario.username">
+                <mat-form-field appearance="fill" class="ancho-select-cantidad">
+                    <mat-label>Cantidad</mat-label>
+                    <select matNativeControl name="TipoP" #tipoP="ngModel" [(ngModel)]="cantidad" placeholder="Cantidad"
+                        (selectionChange)="cambioCantidad()">
+                        <option [value]="cantidad" *ngFor="let cantidad of cantidades">{{ cantidad }}</option>
+                    </select>
+                </mat-form-field>
+            </div>
+            -->
+
+            Alto: {{sugerencia.alto}} cms.;
+            Ancho: {{sugerencia.ancho}} cms.;
+            Grosor: {{sugerencia.fondo}} cms
+
+            <br>
+            Clasificación de la obra: {{sugerencia.tipo}}
+            <br>
+            Estado: {{sugerencia.estado}}
+            <br>
+            <div *ngIf="!authService.usuario.username">
+                <a [routerLink]="['/login']" class="boton-bajo">
+                    {{ 'Para añadir al carro es necesario entrar en sesión' | translate }}
+                </a>
+            </div>
+            <br>
+            <div class="grupo-botones">
+                <!-- <button *ngIf="authService.usuario.username" mat-button style="margin-right: 1px" (click)='aceptar()'>{{'Añadir al carro' |translate}}</button> -->
+                <div *ngIf="authService.usuario.username">
+                    <button mat-stroked-button color="success" style="margin-right: 7px"
+                        (click)='aceptar(sugerencia)'>{{'Añadir al carro' |translate}}
+                    </button>
+                </div>
+                <div>
+                    <button mat-stroked-button color="success" style="margin-right: 7px"
+                        (click)="activeModal.close(true)">{{'Salir'
+                        |translate}}</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

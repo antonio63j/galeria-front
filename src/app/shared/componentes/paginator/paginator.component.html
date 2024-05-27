@@ -1,0 +1,34 @@
+
+<ul *ngIf="paginas?.length > 0" class="pagination">
+    <li [ngClass]="paginador.first? 'disabled page-item': 'page-item'">
+        <a class="page-link" (click)="cargaPagina(0)">&#x0226A;</a>
+    </li>
+    <li *ngIf="paginador.number > 0" class="page-item">
+        <a class="page-link" (click)="cargaPagina(paginador.number -1)">&#x0003C;</a>
+    </li>
+    <li *ngFor="let pagina of paginas" [ngClass]="pagina-1 == paginador.number? 'page-item active':'page-item'">
+        <span *ngIf="pagina -1 == paginador.number" class="page-link">{{pagina}}</span>
+        <a *ngIf="pagina -1 != paginador.number" class="page-link"
+            (click)="cargaPagina(pagina -1)">{{pagina}}</a>
+    </li>
+	<li *ngIf="paginador.number < paginador.totalPages -1" class="page-item">
+        <a class="page-link" (click)="cargaPagina(paginador.number + 1)">&#x0003E;</a>
+    </li>
+    <li [ngClass]="paginador.last?' disabled page-item': 'page-item'">
+        <a class="page-link" (click)="cargaPagina(paginador.totalPages-1)">&#x0226B;</a>
+    </li>
+    <li> 
+        <mat-form-field  class="my-select-panel-class"> 
+            <mat-label>Líneas</mat-label>
+            <mat-select  [(value)]="sizePage" 
+              panelClass="my-long-panel" (selectionChange)="selectedSize(sizePage)">
+              <mat-option [value]="size" *ngFor="let size of sizes">{{ size }}</mat-option>
+            </mat-select>
+        </mat-form-field> 
+  
+        <mat-label class="my-select-panel-class">
+            pagina {{paginador.number + 1}} de {{paginador.totalPages}}
+            , total {{paginador.totalElements}} líneas
+        </mat-label>
+    </li>
+</ul>

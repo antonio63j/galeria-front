@@ -1,0 +1,43 @@
+<div class="main-container animation fadeIn">
+  <div class="contairer">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-avatar">
+            <a href="javascript:void(0)">
+              <img class="img" src="{{host}}/api/empresa/uploads/img/admin/upload.png" />
+            </a>
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="custom-file">
+              <input (change)="selecionarFoto($event)" type="file" class="custom-file-input" id="inputGroupFile04"
+                aria-describedby="inputGroupFileAddon04">
+              <label *ngIf="!nombreArchivoFoto" class="custom-file-label" for="inputGroupFile04">Seleccionar foto
+              </label>
+
+              <label *ngIf="nombreArchivoFoto" class="custom-file-label"
+                for="inputGroupFile04">‌ --- {{nombreArchivoFoto.name | slice:0:24}}</label>
+            </div>
+          </div>
+
+          <div class="progress" *ngIf="progreso > 0">
+            <div class="progress-bar progress-bar-striped" role="progressbar" [ngStyle]="{width:progreso+'%'}"
+              attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100">{{progreso}}%
+            </div>
+          </div>
+
+        </div>
+        <div class="col-sm">
+          <img *ngIf="fotoActual" src="{{host}}/{{sufijoController}}/{{fotoActual}}" alt="{{fotoActal}}"
+            class="img-thumbnail rounded">
+        </div>
+      </div>
+
+    </div> 
+    <div class="card-footer grupo-botones">
+      <button mat-raised-button (click)="subirFoto()" class="margin-right" color="primary" type="button"
+      id="inputGroupFileAddon04" [disabled]="!nombreArchivoFoto">Subir foto</button>
+    </div>
+  </div>
+</div>
