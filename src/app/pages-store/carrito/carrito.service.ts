@@ -136,10 +136,13 @@ export class CarritoService implements OnDestroy {
 
     let index: number;
     index = carrito.pedidoLineaLotes.findIndex(
-      item => item.lote.id === pedidoLineaLote.lote.id &&
-        item.primero.id === pedidoLineaLote.primero.id &&
-        item.segundo.id === pedidoLineaLote.segundo.id &&
-        item.postre.id === pedidoLineaLote.postre.id);
+      item => item.lote.id === pedidoLineaLote.lote.id 
+
+/*       && item.primero.id === pedidoLineaLote.primero.id 
+      && item.segundo.id === pedidoLineaLote.segundo.id 
+      && item.postre.id === pedidoLineaLote.postre.id
+ */
+      );
     if (index > -1) {
       carrito.pedidoLineaLotes[index] = pedidoLineaLote;
     } else {
@@ -147,26 +150,28 @@ export class CarritoService implements OnDestroy {
     }
   }
 
-  // llamado desde sugerencia-detalle.component
+  // AFL adaptacion artefluido
+  // llamado desde sugerencia-detalle.component, para añadir obra al carrito
   addPedidoLineaSugerencia(pedidoLineaSugerencia: PedidoLineaSugerencia): void {
     this.actualizarLineaSugerenciaEnCarrito(this.carrito, pedidoLineaSugerencia);
-    this.saveCarrito();
+    this.saveCarritoSugerencia(pedidoLineaSugerencia);
   }
 
-  // llamado desde lote-detalle.component
+  // AFL adaptacion artefluido
+  // llamado desde lote-detalle.component, para añadir lote al carrito
   addPedidoLineaLote(pedidoLineaLote: PedidoLineaLote): void {
     this.actualizarLineaLoteEnCarrito(this.carrito, pedidoLineaLote);
-    this.saveCarrito();
+    this.saveCarritoLote(pedidoLineaLote);
   }
 
   // LLamado desde this.addPedidoLineaSugerecia / .. lote
-  saveCarrito(): void {
+  saveCarritoSugerencia(pedidoLineaSugerencia: PedidoLineaSugerencia): void {
     this.erroresValidacion = [];
     this.carrito.usuario = this.authService.usuario.username;
 
     // console.log(`salvando carrito: ${JSON.stringify(this.carrito)}`);
 
-    this.observ$ = this.save(this.carrito).pipe(
+    this.observ$ = this.saveSugerencia(this.carrito, pedidoLineaSugerencia).pipe(
       takeUntil(this.unsubscribe$)
     )
       .subscribe(
@@ -180,12 +185,58 @@ export class CarritoService implements OnDestroy {
             console.log(this.erroresValidacion);
             swal.fire('Error en validación de datos ', `error.status = ${err.status.toString()}`, 'error');
 
-          } else {this.showErrorService.httpErrorResponse(err, 'Error al guardar carrito', '', 'error');
+          } else
+          if (err.status === 500) {
+            console.log(`err:${JSON.stringify(err)}`);
+          
+            this.erroresValidacion = err.error.errors as string[];
+            console.log(this.erroresValidacion);
+            swal.fire('warning ', `${err.error.mensaje}`, 'warning');
+
+          } else {
+              this.showErrorService.httpErrorResponse(err, 'Error al guardar carrito', '', 'error');
           }
         }
       );
   }
 
+    // LLamado desde this.addPedidoLineaSugerecia / .. lote
+    saveCarritoLote(pedidoLineaLote: PedidoLineaLote): void {
+      this.erroresValidacion = [];
+      this.carrito.usuario = this.authService.usuario.username;
+  
+      // console.log(`salvando carrito: ${JSON.stringify(this.carrito)}`);
+  
+      this.observ$ = this.saveLote(this.carrito, pedidoLineaLote).pipe(
+        takeUntil(this.unsubscribe$)
+      )
+        .subscribe(
+          json => {
+            this.carrito = json.data;
+            this.calculosCarrito(this.carrito);
+          }
+          , err => {
+            if (err.status === 400) {
+              this.erroresValidacion = err.error.errors as string[];
+              console.log(this.erroresValidacion);
+              swal.fire('Error en validación de datos ', `error.status = ${err.status.toString()}`, 'error');
+  
+            } else
+            if (err.status === 500) {
+              console.log(`err:${JSON.stringify(err)}`);
+            
+              this.erroresValidacion = err.error.errors as string[];
+              console.log(this.erroresValidacion);
+              swal.fire('warning ', `${err.error.mensaje}`, 'warning');
+  
+            } else {
+                this.showErrorService.httpErrorResponse(err, 'Error al guardar carrito', '', 'error');
+            }
+          }
+        );
+    }
+
+/* AFL adaptacion a artefluido, ya no se manejan cantidades
   // llamado desde carrito-component debido a un cambio en cantidad
   saveLineaSugerencia(pedidoLineaSugerencia: PedidoLineaSugerencia): Observable<any> {
     this.actualizarLineaSugerenciaEnCarrito(this.carrito, pedidoLineaSugerencia);
@@ -196,6 +247,9 @@ export class CarritoService implements OnDestroy {
     );
   }
 
+ */
+
+/*   AFL adatacion a artefluido, ya no se manejan cantidades 
   // llamado desde carrito-component debido a un cambio en cantidad
   saveLineaLote(pedidoLineaLote: PedidoLineaLote): Observable<any> {
     this.actualizarLineaLoteEnCarrito(this.carrito, pedidoLineaLote);
@@ -205,6 +259,7 @@ export class CarritoService implements OnDestroy {
       })
     );
   }
+ */
 
   sortCarrito(carrito: Pedido): void {
     (carrito.pedidoLineaSugerencias.sort((a, b) => {
@@ -217,11 +272,16 @@ export class CarritoService implements OnDestroy {
     ));
   }
 
-  save(carrito: Pedido): Observable<any> {
+  // AFL adapatacion a artefluido, desde aquí solo se añade sugerencia
+  saveSugerencia(carrito: Pedido, pedidoLineaSugerencia:PedidoLineaSugerencia): Observable<any> {
     // Ojo que no actualiza this.carrito con la peticion
     // lo actualiza con la respuesta
 
-    return this.http.post<Pedido>(environment.urlEndPoint + '/api/carrito/save', carrito).pipe(
+    const parametros = new HttpParams()
+
+   .set('sugerenciaId', pedidoLineaSugerencia.sugerencia.id.toString());
+    
+    return this.http.post<Pedido>(environment.urlEndPoint + '/api/carrito/save/sugerencia', carrito, { params: parametros}).pipe(
       catchError(err => {
         console.log(`error capturado: ${err.status} `);
         return throwError(err);
@@ -241,6 +301,36 @@ export class CarritoService implements OnDestroy {
       })
     );
   }
+
+    // AFL adapatacion a artefluido, desde aquí solo se añade lote
+    saveLote(carrito: Pedido, pedidoLineaLote:PedidoLineaLote): Observable<any> {
+      // Ojo que no actualiza this.carrito con la peticion
+      // lo actualiza con la respuesta
+  
+      const parametros = new HttpParams()
+  
+     .set('loteId', pedidoLineaLote.lote.id.toString());
+      
+      return this.http.post<Pedido>(environment.urlEndPoint + '/api/carrito/save/lote', carrito, { params: parametros}).pipe(
+        catchError(err => {
+          console.log(`error capturado: ${err.status} `);
+          return throwError(err);
+        }), map((response: any) => {
+          if (response === null) {
+            return response;
+          }
+  
+          this.sortCarrito(response.data);
+          this.carrito = response.data;
+  
+          // console.log(`carrito: ${JSON.stringify(this.carrito)}`);
+  
+          this.calculosCarrito(this.carrito);
+          return response;
+  
+        })
+      );
+    }
 
   public calculosCarrito(carrito: Pedido): void {
     carrito.total = 0;
@@ -309,6 +399,7 @@ export class CarritoService implements OnDestroy {
 
   }
 
+  // desde carrito.component para eliminar línea
   deleteLineaLote(idPedido: number, idLineaLote: number): Observable<any> {
     let parametros = new HttpParams();
     parametros = parametros.append('idPedido', idPedido.toString());

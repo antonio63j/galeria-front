@@ -8,13 +8,13 @@
         <div class="col">
             <div class="card mb-9 text-center">
                 <div class="card-header color-modal-header">
-                    <h5>Sugerencias</h5>
+                    <h5>Galería</h5>
                 </div>
                 <div class="card-title">
                     <div *ngIf="!sugerencias" class="alert alert-info">Espere un momento por favor</div>
                     <div *ngIf="sugerencias?.length==0" class="alert alert-info"> Lista vacía
                         <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
-                            style="margin-right: 8px" (click)='crear()'>{{'Crear sugerencia' |translate}}</button>
+                            style="margin-right: 8px" (click)='crear()'>{{'Añadir obra' |translate}}</button>
                         <button *ngIf="filterChecked" class="btn btn-primary btn-sm" style="margin-right: 8px"
                             (click)='quitarFiltros()'>{{'Desactivar filtros' |translate}}</button>
                     </div>
@@ -25,8 +25,7 @@
                             <tr>
                                 <th>
                                     <button mat-raised-button color="primary" style="margin-right: 8px; font-size: 14px;"
-                                        (click)='crear()'>Crear
-                                        sugerencia</button>
+                                        (click)='crear()'>Añadir obra</button>
                                 </th>
 
                                 <th [ngClass]="{bloqueoFiltro: filterChecked, desbloqueoFiltro: !filterChecked}"
@@ -83,7 +82,7 @@
                                             [disabled]="filterChecked" [(ngModel)]="filtroSugerencia.label"
                                             #label="ngModel" maxlength="80">
                                         <mat-icon matSuffix>search</mat-icon>  
-                                        <mat-hint>busca dentro del nombre del producto</mat-hint>  
+                                        <mat-hint>busca dentro de la obra</mat-hint>  
                                     </mat-form-field>
                                 </th>
                                 <th style="width: 250px !important">
@@ -124,7 +123,7 @@
                                             [(ngModel)]="filtroSugerencia.descripcion" #descripcion="ngModel"
                                             maxlength="80">
                                         <mat-icon matSuffix>search</mat-icon> 
-                                        <mat-hint>busca dentro de la descripción del producto</mat-hint> 
+                                        <mat-hint>busca en el campo descripción de la obra</mat-hint> 
                                     </mat-form-field>
                                 </th>
 
@@ -178,8 +177,8 @@
                             </paginator-nav>
                         </div>
                         <div class="col">
-                            <button mat-raised-button color="primary" style="margin-right: 8px" (click)='crear()'>Crear
-                                sugerencia</button>
+                            <button mat-raised-button color="primary" style="margin-right: 8px" (click)='crear()'>
+                                Añadir obra</button>
                         </div>
                     </div>
                 </div>

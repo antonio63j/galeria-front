@@ -73,15 +73,19 @@ export class LoteComponent implements OnInit, OnDestroy{
 
   cargaEmpresa(id: number): void {
     this.empresaService.get(id).pipe(
-        takeUntil(this.unsubscribe$)
-      )
-        .subscribe(
-          json => {
-            this.empresa = json;
-            this.updateTitleAndMetaTags();
-          }
-          , err => this.showErrorService.httpErrorResponse(err, 'Error carga datos empresa', '', 'error')
-        );
+      takeUntil(this.unsubscribe$)
+    )
+      .subscribe({
+        next: (json) => {
+          console.info (`recepción en empresaService.get()`);
+          this.empresa = json;
+          this.updateTitleAndMetaTags()
+        }
+        ,
+        error: (err) => this.showErrorService.httpErrorResponse(err, 'Error carga datos empresa', '', 'error')
+        ,
+        complete: () => console.info('complete empresaService.get()')
+      });
   }
 
   subcripcionLotes(): void {
@@ -89,19 +93,21 @@ export class LoteComponent implements OnInit, OnDestroy{
       takeUntil(this.unsubscribe$),
       tap((response: any) => {
       }),
-    ).subscribe(
-      response => {
-        this.lotes = (response as Lote[]);
-        if (this.empresa === undefined) {
-          this.cargaEmpresa(1);
-        } else {
-          this.updateTitleAndMetaTags();
-        }
-
-      }
-      , err => {this.showErrorService.httpErrorResponse(err, 'Error carga de lotes', '', 'error');
-      }
-    );
+    ).subscribe({
+        next: (response) => {  
+          console.info ('recepcion en getLotesVisibles'); 
+          this.lotes = (response as Lote[]);
+          if (this.empresa === undefined) {
+            this.cargaEmpresa(1);
+          } else {
+            this.updateTitleAndMetaTags();
+          }
+        }, 
+        error: (err) => 
+           this.showErrorService.httpErrorResponse(err, 'Error carga de lotes', '', 'error')
+        ,
+       complete: () => console.info('finalizada subscripción a getLotesVisibles')
+      });
   }
 
   updateTitleAndMetaTags(): void{
@@ -143,7 +149,7 @@ opciones de nuestro lote de obras: ${lotes}, con varios primeros, segundos, y po
     ).pipe(
       take(1) // take() manages unsubscription for us
     ).subscribe(result => {
-      this.loteService.getLotes().subscribe(respon => {
+      this.loteService.getLotes().pipe(take(1)).subscribe(respon => {
         this.lotes = respon as Lote[];
       });
     });

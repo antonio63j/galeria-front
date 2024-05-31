@@ -1,13 +1,13 @@
 <app-header></app-header>
 
+<div id="container">
 
+    <app-sidebar (collapsedEvent)="receiveCollapsed($event)"></app-sidebar>
 
-<app-sidebar (collapsedEvent)="receiveCollapsed($event)"></app-sidebar>
+    <section [ngClass]="{ collapsed: collapedSideBar }" class="main-container">
+        <router-outlet></router-outlet>
+    </section>
 
-
-
-<section [ngClass]="{ collapsed: collapedSideBar }" class="main-container">
-    <router-outlet></router-outlet>
-</section>
+</div>
 
 <app-footer></app-footer>

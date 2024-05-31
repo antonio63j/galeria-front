@@ -60,7 +60,7 @@
                 <!-- <button *ngIf="authService.usuario.username" mat-button style="margin-right: 1px" (click)='aceptar()'>{{'Añadir al carro' |translate}}</button> -->
                 <div *ngIf="authService.usuario.username">
                     <button mat-stroked-button color="success" style="margin-right: 7px"
-                        (click)='aceptar(sugerencia)'>{{'Añadir al carro' |translate}}
+                        (click)='addSugerencia(sugerencia)'>{{'Añadir al carro' |translate}}
                     </button>
                 </div>
                 <div>

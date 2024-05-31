@@ -290,11 +290,6 @@ y podremos entregar el pedido a domicilio o vienes recoger`}, `name='description
         ).subscribe(result => {
             console.log({ confirmedResult: result });
 
-            // this.sugerenciaService.getSugerencias(this.filtroSugerencia).subscribe(respon => {
-            //     this.sugerencias = respon.content as Sugerencia[];
-            //     this.paginador = respon;
-
-//         });
         });
     }
 
@@ -305,11 +300,15 @@ y podremos entregar el pedido a domicilio o vienes recoger`}, `name='description
     subscripcioneventoCerrarModalScrollable(): void {
         this.modalService.eventoCerrarModalScrollable.pipe(
             takeUntil(this.unsubscribe$),
-        ).subscribe(
+        ).subscribe({
+            next: 
             () => {
                 console.log('recibido evento para cerrar modal');
                 this.modalConModeloService.closeModalScrollable();
-            }
+            },
+            error: (e) => console.error(`error:${e}`),
+            complete : () => console.info('complete')
+        }
         );
     }
 

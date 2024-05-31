@@ -99,7 +99,7 @@
     </div>
 
     
-    <!-- Se muestra los lotes y con sus obras -->
+    <!-- Se muestran los lotes y sus obras -->
     <div *ngFor="let lineaLote of carrito.pedidoLineaLotes">
       <mat-card appearance="outlined" class="card contenedor">
 
@@ -118,7 +118,6 @@
                 alt="Lote en el carrito">
                 <br>
                 <div [innerHTML]=lineaLote.lote.descripcion></div>
-
                 <div *ngIf="lineaLote.precioInicio!== lineaLote.lote.precio">
                   <br>
                   <mat-label style="font-size: 14px; color:red;">
@@ -126,7 +125,6 @@
                     {{lineaLote.precioInicio}}
                   </mat-label>
                 </div>
-
 
                 <div class="grupo-botones" style="margin-top: 20px; margin-left: 20px;">
                   <button mat-stroked-button color="success" style="margin-right: 7px"
@@ -137,10 +135,28 @@
                 </div>
 
             </mat-card>
-            <mat-card style="padding: 17px;" appearance="outlined" fxFlex="calc(100%-315px)" fxFlex.xs="100" fxFlexOrder.gt-xs="2">
+
+            <div style="padding: 17px;" class="card-body row"
+                                             appearance="outlined" 
+                                             fxFlex="calc(100%-315px)" 
+                                             fxFlex.xs="100" 
+                                             fxFlexOrder.gt-xs="2">
+
+            <!--
+            <mat-card style="padding: 17px;" 
+                                             appearance="outlined" 
+                                             fxFlex="calc(100%-315px)" 
+                                             fxFlex.xs="100" 
+                                             fxFlexOrder.gt-xs="2">
+             -->
+
               <!-- lista de obras del lote -->             
 
-              <div *ngFor="let opt of lineaLote.lote.loteSugerencias">
+              <!-- 
+              <div *ngFor="let opt of lineaLote.lote.loteSugerencias"  class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+              -->
+
+              <div *ngFor="let opt of lineaLote.lote.loteSugerencias"  class="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-6">
                 <mat-card  style="margin-bottom: 30px;">
                     
                     <mat-card-header style="font-weight: bold;">
@@ -158,14 +174,14 @@
                     <img *ngIf="opt.sugerencia?.imgFileName" class="img-thumbnail" 
                         src="{{host}}/api/sugerencia/uploads/img/{{opt.sugerencia.imgFileName}}">
     
-                      
                 </mat-card>
             </div>
 
             <!-- fin lista de obras del lote -->
 
+            </div>
 
-            </mat-card>
+
           </div>
         </mat-card-content>
 

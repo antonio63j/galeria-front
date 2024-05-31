@@ -266,6 +266,7 @@ export class CarritoComponent implements OnInit, OnDestroy {
 
   }
 
+/* AFL adaptacion a artefluido, ya no hay cantidades que manejar
   cambioCantidadSugerencia(pedidoLineaSugerencia: PedidoLineaSugerencia): void {
     this.observSugerencia$ = this.carritoService.saveLineaSugerencia(pedidoLineaSugerencia).pipe(
       takeUntil(this.unsubscribe$)
@@ -290,6 +291,11 @@ export class CarritoComponent implements OnInit, OnDestroy {
         }
       );
   }
+  */ 
+
+/* AFL adaptacion a artefluido, ya no hay cantidades que manejar
+
+  // LLamado desde carrito.component.html
 
   cambioCantidadLote(pedidoLineaLote: PedidoLineaLote): void {
     this.observLote$ = this.carritoService.saveLineaLote(pedidoLineaLote).pipe(
@@ -315,8 +321,9 @@ export class CarritoComponent implements OnInit, OnDestroy {
         }
       );
   }
+*/ 
 
-  deleteLineaSugerencia(lineaSugerencia: PedidoLineaSugerencia): void {
+deleteLineaSugerencia(lineaSugerencia: PedidoLineaSugerencia): void {
 
     const index = this.getLineaSugerenciaIndex(this.carritoCheck.pedidoLineaSugerencias, lineaSugerencia);
 
@@ -383,7 +390,8 @@ export class CarritoComponent implements OnInit, OnDestroy {
 
   }
 
-  save(): void {
+/* 
+  save__(): void {
     this.erroresValidacion = [];
     this.observ$ = this.carritoService.save(this.carrito).pipe(
       takeUntil(this.unsubscribe$)
@@ -408,6 +416,7 @@ export class CarritoComponent implements OnInit, OnDestroy {
         }
       );
   }
+   */
 
   ngOnDestroy(): void {
     console.log('ngOnDestroy (), realizando unsubscribes');

@@ -131,6 +131,7 @@ export class AdminLoteSugerenciaComponent implements OnInit, OnDestroy {
 
   }
 
+  // AFL adapatacion artefluido
   public deleteLoteSugerencia(loteSugerencia: LoteSugerencia): void {
     swalWithBootstrapButtons.fire({
       title: '¿Estás seguro?',
@@ -295,7 +296,17 @@ export class AdminLoteSugerenciaComponent implements OnInit, OnDestroy {
           this.lote = response.data as Lote;
           this.sortColumnMS();
         },
-        err => {this.showErrorService.httpErrorResponse(err, 'Error al añadir la obra, posiblemente este en otro lote, ', '', 'error');
+       
+        // err => {this.showErrorService.httpErrorResponse(err, 'Error al añadir la obra, posiblemente este en otro lote, ', '', 'error');
+        err => {
+        if (err.status === 500) {
+          console.log(`err:${JSON.stringify(err)}`);
+          swal.fire('warning ', `${err.error.mensaje}`, 'warning');
+
+        } else {
+            this.showErrorService.httpErrorResponse(err, 'Error al guardar carrito', '', 'warning');
+        }
+
         }
       );
   }

@@ -19,5 +19,7 @@ export class Sugerencia {
     estado: EstadoSugerenciaEnum;
     fechaCambioEstado: Date;
     loteNombre: string;
+    autor: string;
+    anioCreacion: number;
 
 }

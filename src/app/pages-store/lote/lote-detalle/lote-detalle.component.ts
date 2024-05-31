@@ -49,7 +49,7 @@ export class LoteDetalleComponent implements OnInit {
    }
 
 
-  aceptar(lote: Lote): void {
+  addLote(lote: Lote): void {
     if (false ) {
       swal.fire('Aviso', 'Falta opción por seleccionar', 'warning');
     } else {
@@ -61,9 +61,12 @@ export class LoteDetalleComponent implements OnInit {
             pedidoLineaLote.precioInicio = lote.precio;
 
             pedidoLineaLote.lote = this.lote;
+            
+          /* 
             pedidoLineaLote.primero = this.primero;
             pedidoLineaLote.segundo = this.segundo;
             pedidoLineaLote.postre = this.postre;
+          */        
 
             console.log(`pedidoLinaLote: ${JSON.stringify(pedidoLineaLote)}`);
 

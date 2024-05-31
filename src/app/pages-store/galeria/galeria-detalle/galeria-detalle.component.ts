@@ -33,7 +33,7 @@ export class GaleriaDetalleComponent implements OnInit {
   }
 
 
-  aceptar(sugerencia: Sugerencia): void {
+  addSugerencia(sugerencia: Sugerencia): void {
 
     if (this.cantidad < 1 || this.cantidad > this.cantidadMax) {
       swal.fire('Aviso', `Cantidad deber estar entre 1 y ${this.cantidadMax}`, 'warning');
